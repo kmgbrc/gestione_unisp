@@ -1,4 +1,4 @@
-package com.unisp.gestioneunisp.security;
+package it.unisp.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

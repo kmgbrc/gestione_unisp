@@ -1,7 +1,7 @@
 package it.unisp.controller;
 
-import com.unisp.gestioneunisp.model.Attivita;
-import com.unisp.gestioneunisp.service.AttivitaService;
+import it.unisp.model.Attivita;
+import it.unisp.service.AttivitaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/attivita")
+@RequestMapping("/api/attivita")
 @RequiredArgsConstructor
 public class AttivitaController {
     private final AttivitaService attivitaService;
@@ -30,19 +30,19 @@ public class AttivitaController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('STAFF')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Attivita> createAttivita(@RequestBody Attivita attivita) {
         return ResponseEntity.ok(attivitaService.createAttivita(attivita));
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('STAFF')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Attivita> updateAttivita(@PathVariable Long id, @RequestBody Attivita attivita) {
         return ResponseEntity.ok(attivitaService.updateAttivita(id, attivita));
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('STAFF')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteAttivita(@PathVariable Long id) {
         attivitaService.deleteAttivita(id);
         return ResponseEntity.ok().build();

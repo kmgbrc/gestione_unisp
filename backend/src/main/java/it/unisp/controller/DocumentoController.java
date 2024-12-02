@@ -1,13 +1,15 @@
 package it.unisp.controller;
 
-import com.unisp.gestione.models.Documento;
-import com.unisp.gestione.services.DocumentoService;
+import it.unisp.exception.MissingDocumentException;
+import it.unisp.model.Documenti;
+import it.unisp.service.DocumentoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -17,29 +19,29 @@ public class DocumentoController {
     private final DocumentoService documentoService;
 
     @PostMapping("/carica")
-    public ResponseEntity<Documento> caricaDocumento(
+    public ResponseEntity<Documenti> caricaDocumento(
             @RequestParam Long membroId,
             @RequestParam String tipo,
-            @RequestParam MultipartFile file) {
+            @RequestParam MultipartFile file) throws MissingDocumentException, IOException {
         return ResponseEntity.ok(documentoService.caricaDocumento(membroId, tipo, file));
     }
 
     @PutMapping("/{id}/approva")
     @PreAuthorize("hasRole('STAFF')")
-    public ResponseEntity<Documento> approvaDocumento(@PathVariable Long id) {
+    public ResponseEntity<Documenti> approvaDocumento(@PathVariable Long id) {
         return ResponseEntity.ok(documentoService.approvaDocumento(id));
     }
 
     @PutMapping("/{id}/rifiuta")
     @PreAuthorize("hasRole('STAFF')")
-    public ResponseEntity<Documento> rifiutaDocumento(
+    public ResponseEntity<Documenti> rifiutaDocumento(
             @PathVariable Long id,
             @RequestParam String motivazione) {
         return ResponseEntity.ok(documentoService.rifiutaDocumento(id, motivazione));
     }
 
     @GetMapping("/membro/{membroId}")
-    public ResponseEntity<List<Documento>> getDocumentiMembro(@PathVariable Long membroId) {
+    public ResponseEntity<List<Documenti>> getDocumentiMembro(@PathVariable Long membroId) {
         return ResponseEntity.ok(documentoService.getDocumentiMembro(membroId));
     }
 }

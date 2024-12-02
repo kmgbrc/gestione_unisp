@@ -1,4 +1,4 @@
-package com.unisp.gestioneunisp.security;
+package it.unisp.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

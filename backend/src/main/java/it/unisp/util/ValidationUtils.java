@@ -1,6 +1,6 @@
-package com.unisp.gestione.util;
+package it.unisp.util;
 
-import com.unisp.gestione.exception.BusinessException;
+import it.unisp.exception.BusinessException;
 import org.springframework.stereotype.Component;
 
 @Component

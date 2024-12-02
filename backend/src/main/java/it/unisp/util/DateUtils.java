@@ -1,10 +1,8 @@
-package com.unisp.gestione.utils;
+package it.unisp.util;
 
 import java.time.LocalDateTime;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-
 public class DateUtils {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -22,8 +20,18 @@ public class DateUtils {
     }
 
     public static long giorniTraDate(LocalDateTime data1, LocalDateTime data2) {
-        return ChronoUnit.DAYS.between(data1, data2);
+        if (data1 == null || data2 == null) {
+            throw new IllegalArgumentException("Le date non possono essere null");
+        }
+
+        // Convertiamo LocalDateTime in LocalDate
+        LocalDate date1 = data1.toLocalDate();
+        LocalDate date2 = data2.toLocalDate();
+
+        // Calcoliamo la differenza in giorni
+        return Math.abs(date1.toEpochDay() - date2.toEpochDay());
     }
+
 
     public static LocalDateTime addGiorni(LocalDateTime data, long giorni) {
         return data.plusDays(giorni);

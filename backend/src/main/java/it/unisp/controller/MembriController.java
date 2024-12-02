@@ -1,7 +1,7 @@
 package it.unisp.controller;
 
-import com.unisp.gestioneunisp.model.Membri;
-import com.unisp.gestioneunisp.service.MembriService;
+import it.unisp.model.Membri;
+import it.unisp.service.MembriService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

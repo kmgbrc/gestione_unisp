@@ -1,4 +1,4 @@
-package com.unisp.gestioneunisp.util;
+package it.unisp.util;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;

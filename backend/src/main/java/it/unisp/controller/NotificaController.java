@@ -1,7 +1,7 @@
 package it.unisp.controller;
 
-import com.unisp.gestione.models.Notifica;
-import com.unisp.gestione.services.NotificaService;
+import it.unisp.model.Notifica;
+import it.unisp.service.NotificaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

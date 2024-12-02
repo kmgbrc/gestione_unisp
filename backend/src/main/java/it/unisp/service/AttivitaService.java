@@ -1,6 +1,7 @@
 package it.unisp.service;
 
 import it.unisp.model.Attivita;
+import it.unisp.model.Membri;
 import it.unisp.repository.AttivitaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,9 @@ public class AttivitaService {
         return attivitaRepository.findByIsDeletedFalseOrderByDataOraDesc();
     }
 
+    public Attivita getAttivitaById(Long attivitaId) {
+        return attivitaRepository.findByAttivitaIdAndIsDeletedFalse(attivitaId);
+    }
     public List<Attivita> getAttivitaByDateRange(LocalDateTime start, LocalDateTime end) {
         return attivitaRepository.findByDataOraBetweenAndIsDeletedFalse(start, end);
     }

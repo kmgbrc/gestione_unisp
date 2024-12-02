@@ -1,8 +1,8 @@
 package it.unisp.auth;
 
-import com.unisp.gestioneunisp.model.Membri;
-import com.unisp.gestioneunisp.repository.MembriRepository;
-import com.unisp.gestioneunisp.security.JwtService;
+import it.unisp.model.Membri;
+import it.unisp.repository.MembriRepository;
+import it.unisp.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

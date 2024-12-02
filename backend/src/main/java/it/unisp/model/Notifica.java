@@ -28,4 +28,11 @@ public class Notifica {
     @Column(name = "is_deleted")
     private boolean isDeleted = false;
 
+    // Costruttore
+    public Notifica(Membri membro, String contenuto, boolean letto) {
+        this.membro = membro;
+        this.contenuto = contenuto;
+        this.letto = letto;
+    }
+
 }

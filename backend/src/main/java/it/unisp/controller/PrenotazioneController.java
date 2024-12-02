@@ -1,7 +1,7 @@
 package it.unisp.controller;
 
-import it.unisp.model.Prenotazione;
-import it.unisp.services.PrenotazioneService;
+import it.unisp.model.Prenotazioni;
+import it.unisp.service.PrenotazioneService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,14 +13,19 @@ public class PrenotazioneController {
     private final PrenotazioneService prenotazioneService;
 
     @PostMapping("/prenota")
-    public ResponseEntity<Prenotazione> prenotaPosto(
+    public ResponseEntity<String> prenota(@RequestParam Long membroId, @RequestParam Long attivitaId) {
+        prenotazioneService.processaPrenotazione(membroId, attivitaId);
+        return ResponseEntity.ok("Richiesta di prenotazione inviata.");
+    }
+/*    @PostMapping("/prenota")
+    public ResponseEntity<Prenotazioni> prenotaPosto(
             @RequestParam Long membroId,
             @RequestParam Long attivitaId) {
-        return ResponseEntity.ok(prenotazioneService.prenotaPosto(membroId, attivitaId));
-    }
+        return ResponseEntity.ok(prenotazioneService.prenotaNumero(membroId, attivitaId));
+    }*/
 
     @PostMapping("/valida/{id}")
-    public ResponseEntity<Prenotazione> validaPrenotazione(
+    public ResponseEntity<Prenotazioni> validaPrenotazione(
             @PathVariable Long id,
             @RequestParam String qrCode) {
         return ResponseEntity.ok(prenotazioneService.validaPrenotazione(id, qrCode));
@@ -33,7 +38,7 @@ public class PrenotazioneController {
     }
 
     @GetMapping("/membro/{membroId}/attiva")
-    public ResponseEntity<Prenotazione> getPrenotazioneAttiva(
+    public ResponseEntity<Prenotazioni> getPrenotazioneAttiva(
             @PathVariable Long membroId,
             @RequestParam Long attivitaId) {
         return ResponseEntity.ok(prenotazioneService.getPrenotazioneAttiva(membroId, attivitaId));

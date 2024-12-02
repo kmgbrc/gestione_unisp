@@ -1,6 +1,8 @@
 package it.unisp.service;
 
 import it.unisp.exception.LimitReachedException;
+import it.unisp.model.Attivita;
+import it.unisp.model.Membri;
 import it.unisp.model.Partecipazioni;
 import it.unisp.repository.PartecipazioniRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,28 +17,41 @@ import java.util.List;
 public class PartecipazioniService {
     private final PartecipazioniRepository partecipazioniRepository;
     private final NotificaService notificaService;
+    private final MembriService membriService;
+    private final AttivitaService attivitaService;
 
     public List<Partecipazioni> getPartecipazioniByMembro(Long membroId) {
         return partecipazioniRepository.findByMembroIdAndIsDeletedFalse(membroId);
     }
 
+    public List<Partecipazioni> getPartecipazioniAttivita(Long attivitaId) {
+        return partecipazioniRepository.findByAttivitaIdAndIsDeletedFalse(attivitaId);
+    }
+
     @Transactional
-    public Partecipazioni registraPartecipazione(Partecipazioni partecipazione) {
+    public Partecipazioni registraPartecipazione(Long membroId, Long attivitaId, Boolean presente, Long delegatoId) {
         // Verifica limiti assenze
-        long assenzeCount = contaAssenze(partecipazione.getMembro().getId());
+        long assenzeCount = contaAssenze(membroId);
         if (assenzeCount >= 5) {
             throw new LimitReachedException("Limite massimo di assenze raggiunto");
         }
 
         // Verifica limiti deleghe
-        if (partecipazione.getDelegato() != null) {
-            long delegheCount = contaDeleghe(partecipazione.getMembro().getId());
+        if (delegatoId != null) {
+            long delegheCount = contaDeleghe(membroId);
             if (delegheCount >= 3) {
                 throw new LimitReachedException("Limite massimo di deleghe raggiunto");
             }
         }
 
+        // Crea una nuova partecipazione
+        Partecipazioni partecipazione = new Partecipazioni();
+        partecipazione.setMembro(membriService.getMembroById(membroId)); // Assumendo che tu abbia un modo per ottenere l'oggetto Membri
+        partecipazione.setAttivita(attivitaService.getAttivitaById(attivitaId)); // Assumendo che tu abbia un modo per ottenere l'oggetto Attivita
+        partecipazione.setPresente(presente);
         partecipazione.setDataCreazione(LocalDateTime.now());
+
+        // Salva la partecipazione
         Partecipazioni saved = partecipazioniRepository.save(partecipazione);
 
         // Invia notifiche per assenze
@@ -61,4 +76,5 @@ public class PartecipazioniService {
                 .filter(p -> p.getDelegato() != null)
                 .count();
     }
+
 }

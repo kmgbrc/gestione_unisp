@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +27,10 @@ public class MembriService {
 
     public List<Membri> getAllMembri() {
         return membriRepository.findAll();
+    }
+
+    public Membri getMembroById(Long membroId) {
+        return membriRepository.findByMembroIdAndIsDeletedFalse(membroId);
     }
 
     @Transactional
@@ -50,4 +55,29 @@ public class MembriService {
             });
     }
 
+    public Membri findByMembroIdAndIsDeletedFalse(Long membroId) {
+        return membriRepository.findByMembroIdAndIsDeletedFalse(membroId);
+    }
+
+    public List<Membri> getMembriConIscrizioneInScadenza() {
+        LocalDate oggi = LocalDate.now();
+        LocalDate dataScadenza = oggi.plusDays(30); // Consideriamo le iscrizioni in scadenza entro 30 giorni
+
+        return membriRepository.findByDataUltimoRinnovoBetween(oggi, dataScadenza);
+    }
+
+    public List<Membri> getMembriConDocumentiMancanti() {
+        // Recupera tutti i membri
+        List<Membri> tuttiIMembri = membriRepository.findAll();
+
+        // Filtra i membri che hanno almeno un documento mancante
+        return tuttiIMembri.stream()
+                .filter(membro ->
+                        !membro.isPermessoSoggiorno() ||
+                                !membro.isPassaporto() ||
+                                !membro.isCertificatoStudente() ||
+                                !membro.isDichiarazioneIsee()
+                )
+                .collect(Collectors.toList());
+    }
 }
