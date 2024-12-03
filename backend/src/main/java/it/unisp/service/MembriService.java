@@ -30,7 +30,7 @@ public class MembriService {
     }
 
     public Membri getMembroById(Long membroId) {
-        return membriRepository.findByMembroIdAndIsDeletedFalse(membroId);
+        return membriRepository.findByIdAndIsDeletedFalse(membroId);
     }
 
     @Transactional
@@ -56,7 +56,7 @@ public class MembriService {
     }
 
     public Membri findByMembroIdAndIsDeletedFalse(Long membroId) {
-        return membriRepository.findByMembroIdAndIsDeletedFalse(membroId);
+        return membriRepository.findByIdAndIsDeletedFalse(membroId);
     }
 
     public List<Membri> getMembriConIscrizioneInScadenza() {

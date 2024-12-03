@@ -1,7 +1,8 @@
 package it.unisp.model;
 
 public enum CategoriaMembro {
-    STAFF,
-    VOLONTARIO,
-    PASSIVO
+    staff,
+    volontario,
+    passivo;
+
 }

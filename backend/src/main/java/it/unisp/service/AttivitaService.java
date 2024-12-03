@@ -20,7 +20,7 @@ public class AttivitaService {
     }
 
     public Attivita getAttivitaById(Long attivitaId) {
-        return attivitaRepository.findByAttivitaIdAndIsDeletedFalse(attivitaId);
+        return attivitaRepository.findByIdAndIsDeletedFalse(attivitaId);
     }
     public List<Attivita> getAttivitaByDateRange(LocalDateTime start, LocalDateTime end) {
         return attivitaRepository.findByDataOraBetweenAndIsDeletedFalse(start, end);

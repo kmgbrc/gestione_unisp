@@ -2,6 +2,7 @@ package it.unisp.repository;
 
 import it.unisp.model.Notifica;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -17,6 +18,7 @@ public interface NotificaRepository extends JpaRepository<Notifica, Long> {
     List<Notifica> findUnreadByMembro(@Param("membroId") Long membroId);
     
     long countByMembroIdAndLettoFalseAndIsDeletedFalse(Long membroId);
-
+    @Modifying
+    @Query("UPDATE Notifica n SET n.isDeleted = true WHERE n.dataInvio <= :seiMesiFa")
     void softDeleteOldNotifications(LocalDateTime seiMesiFa);
 }

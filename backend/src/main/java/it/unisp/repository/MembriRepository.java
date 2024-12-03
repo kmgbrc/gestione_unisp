@@ -14,6 +14,6 @@ public interface MembriRepository extends JpaRepository<Membri, Long> {
     Optional<Membri> findByEmail(String email);
     boolean existsByEmail(String email);
     Optional<Membri> findByCodiceFiscale(String codiceFiscale);
-    Membri findByMembroIdAndIsDeletedFalse(Long membroId);
+    Membri findByIdAndIsDeletedFalse(Long membroId);
     List<Membri> findByDataUltimoRinnovoBetween(LocalDate startDate, LocalDate endDate);
 }

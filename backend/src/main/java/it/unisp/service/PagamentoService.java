@@ -57,6 +57,6 @@ public class PagamentoService {
     }
 
     public boolean verificaPagamentoIscrizione(Long membroId, int anno) {
-        return pagamentiRepository.existsByMembroIdAndTipoPagamentoAndAnno(membroId, "iscrizione", anno);
+        return pagamentiRepository.existsByMembroIdAndTipoAndAnno(membroId, "iscrizione", anno);
     }
 }

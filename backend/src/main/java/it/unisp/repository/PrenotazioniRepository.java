@@ -2,6 +2,8 @@ package it.unisp.repository;
 
 import it.unisp.model.Prenotazioni;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -14,5 +16,7 @@ public interface PrenotazioniRepository extends JpaRepository<Prenotazioni, Long
     Optional<Prenotazioni> findByMembroIdAndAttivitaIdAndIsDeletedFalse(Long membroId, Long attivitaId);
     List<Prenotazioni> findByMembroIdAndIsDeletedFalse(Long membroId);
 
+    @Modifying
+    @Query("UPDATE Prenotazioni p SET p.isDeleted = true WHERE p.oraPrenotazione <= :unMeseFa")
     void softDeleteOldPrenotazioni(LocalDateTime unMeseFa);
 }

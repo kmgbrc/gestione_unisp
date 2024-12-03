@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface AttivitaRepository extends JpaRepository<Attivita, Long> {
-    Attivita findByAttivitaIdAndIsDeletedFalse(Long attivitaId);
+    Attivita findByIdAndIsDeletedFalse(Long attivitaId);
     List<Attivita> findByDataOraBetweenAndIsDeletedFalse(LocalDateTime start, LocalDateTime end);
     List<Attivita> findByIsDeletedFalseOrderByDataOraDesc();
 }
