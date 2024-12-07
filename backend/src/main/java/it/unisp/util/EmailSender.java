@@ -36,7 +36,7 @@ public class EmailSender {
         }
     }
 
-    public void inviaNotifica(String destinatario, String oggetto, String contenuto) {
+    public void inviaNotifiche(String destinatario, String oggetto, String contenuto) {
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);

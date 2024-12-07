@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class DatabaseCleanupTask {
     private final SessioneRepository sessioneRepository;
-    private final NotificaRepository notificaRepository;
+    private final NotificheRepository notificaRepository;
     private final PrenotazioniRepository prenotazioneRepository;
 
     @Scheduled(cron = "0 0 2 * * *") // Esegui ogni giorno alle 2:00
@@ -23,7 +23,7 @@ public class DatabaseCleanupTask {
 
         // Soft delete notifiche vecchie di 6 mesi
         LocalDateTime seiMesiFa = LocalDateTime.now().minusMonths(6);
-        notificaRepository.softDeleteOldNotifications(seiMesiFa);
+        notificaRepository.softDeleteOldNotifichetions(seiMesiFa);
 
         // Soft delete prenotazioni vecchie
         LocalDateTime unMeseFa = LocalDateTime.now().minusMonths(1);

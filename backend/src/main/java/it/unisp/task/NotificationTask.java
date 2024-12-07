@@ -4,7 +4,7 @@ import it.unisp.model.Attivita;
 import it.unisp.model.Membri;
 import it.unisp.service.AttivitaService;
 import it.unisp.service.MembriService;
-import it.unisp.service.NotificaService;
+import it.unisp.service.NotificheService;
 import it.unisp.util.EmailSender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -19,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class NotificationTask {
 
-    private final NotificaService notificaService;
+    private final NotificheService notificaService;
     private final AttivitaService attivitaService;
     private final EmailSender emailSender;
     private final MembriService membriService;
@@ -29,15 +29,15 @@ public class NotificationTask {
         // Notifiche per rinnovo iscrizione
         membriService.getMembriConIscrizioneInScadenza().forEach(membro -> {
             String messaggio = "La tua iscrizione scadrà tra 30 giorni. Ricordati di rinnovarla.";
-            notificaService.creaNotifica(membro.getId(), messaggio);
-            emailSender.inviaNotifica(membro.getEmail(), "Rinnovo Iscrizione", messaggio);
+            notificaService.creaNotifiche(membro.getId(), messaggio);
+            emailSender.inviaNotifiche(membro.getEmail(), "Rinnovo Iscrizione", messaggio);
         });
 
         // Notifiche per documenti mancanti
         membriService.getMembriConDocumentiMancanti().forEach(membro -> {
             String messaggio = "Hai documenti mancanti o scaduti. Accedi al portale per verificare.";
-            notificaService.creaNotifica(membro.getId(), messaggio);
-            emailSender.inviaNotifica(membro.getEmail(), "Documenti Mancanti", messaggio);
+            notificaService.creaNotifiche(membro.getId(), messaggio);
+            emailSender.inviaNotifiche(membro.getEmail(), "Documenti Mancanti", messaggio);
         });
     }
 
@@ -64,7 +64,7 @@ public class NotificationTask {
 
             // Invia la notifica a tutti i membri
             for (Membri membro : tuttiIMembri) {
-                notificaService.creaNotifica(membro.getId(), messaggio);
+                notificaService.creaNotifiche(membro.getId(), messaggio);
             }
         }
     }
@@ -92,7 +92,7 @@ public class NotificationTask {
 
             // Invia la notifica a tutti i membri
             for (Membri membro : tuttiIMembri) {
-                notificaService.creaNotifica(membro.getId(), messaggio);
+                notificaService.creaNotifiche(membro.getId(), messaggio);
             }
         }
     }

@@ -1,0 +1,173 @@
+2024-12-04 00:00:07,040 DEBUG o.s.s.w.FilterChainProxy [http-nio-8080-exec-8] Securing GET /api/partecipazioni/membro/6
+2024-12-04 00:00:07,043 DEBUG o.s.s.w.a.AnonymousAuthenticationFilter [http-nio-8080-exec-8] Set SecurityContextHolder to anonymous SecurityContext
+2024-12-04 00:00:07,045 DEBUG o.s.s.w.FilterChainProxy [http-nio-8080-exec-8] Secured GET /api/partecipazioni/membro/6
+2024-12-04 00:00:07,048 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-8] 
+    select
+        p1_0.id,
+        p1_0.attivita_id,
+        p1_0.data_creazione,
+        p1_0.data_partecipazione,
+        p1_0.delegato_id,
+        p1_0.is_deleted,
+        p1_0.membro_id,
+        p1_0.presente,
+        p1_0.stato 
+    from
+        partecipazioni p1_0 
+    where
+        p1_0.membro_id=? 
+        and not(p1_0.is_deleted)
+2024-12-04 00:00:07,054 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-8] 
+    select
+        a1_0.id,
+        a1_0.data_ora,
+        a1_0.descrizione,
+        a1_0.is_deleted,
+        a1_0.luogo,
+        a1_0.num_max_partecipanti,
+        a1_0.titolo 
+    from
+        attivita a1_0 
+    where
+        a1_0.id=?
+2024-12-04 00:00:07,057 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-8] 
+    select
+        m1_0.id,
+        m1_0.categoria,
+        m1_0.certificato_studente,
+        m1_0.codice_fiscale,
+        m1_0.cognome,
+        m1_0.data_iscrizione,
+        m1_0.data_ultimo_rinnovo,
+        m1_0.dichiarazione_isee,
+        m1_0.email,
+        m1_0.is_deleted,
+        m1_0.nome,
+        m1_0.passaporto,
+        m1_0.password,
+        m1_0.permesso_soggiorno,
+        m1_0.stato,
+        m1_0.telefono 
+    from
+        membri m1_0 
+    where
+        m1_0.id=?
+2024-12-04 00:00:07,061 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-8] 
+    select
+        a1_0.id,
+        a1_0.data_ora,
+        a1_0.descrizione,
+        a1_0.is_deleted,
+        a1_0.luogo,
+        a1_0.num_max_partecipanti,
+        a1_0.titolo 
+    from
+        attivita a1_0 
+    where
+        a1_0.id=?
+2024-12-04 00:00:07,064 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-8] 
+    select
+        m1_0.id,
+        m1_0.categoria,
+        m1_0.certificato_studente,
+        m1_0.codice_fiscale,
+        m1_0.cognome,
+        m1_0.data_iscrizione,
+        m1_0.data_ultimo_rinnovo,
+        m1_0.dichiarazione_isee,
+        m1_0.email,
+        m1_0.is_deleted,
+        m1_0.nome,
+        m1_0.passaporto,
+        m1_0.password,
+        m1_0.permesso_soggiorno,
+        m1_0.stato,
+        m1_0.telefono 
+    from
+        membri m1_0 
+    where
+        m1_0.id=?
+2024-12-04 00:01:02,919 DEBUG o.s.s.w.FilterChainProxy [http-nio-8080-exec-9] Securing GET /api/prenotazioni/membro/1/attivita
+2024-12-04 00:01:02,920 DEBUG o.s.s.w.a.AnonymousAuthenticationFilter [http-nio-8080-exec-9] Set SecurityContextHolder to anonymous SecurityContext
+2024-12-04 00:01:02,924 DEBUG o.s.s.w.FilterChainProxy [http-nio-8080-exec-9] Secured GET /api/prenotazioni/membro/1/attivita
+2024-12-04 00:01:41,368 DEBUG o.s.s.w.FilterChainProxy [http-nio-8080-exec-10] Securing GET /api/prenotazioni/membro/1/attiva
+2024-12-04 00:01:41,369 DEBUG o.s.s.w.a.AnonymousAuthenticationFilter [http-nio-8080-exec-10] Set SecurityContextHolder to anonymous SecurityContext
+2024-12-04 00:01:41,370 DEBUG o.s.s.w.FilterChainProxy [http-nio-8080-exec-10] Secured GET /api/prenotazioni/membro/1/attiva
+2024-12-04 00:02:25,388 DEBUG o.s.s.w.FilterChainProxy [http-nio-8080-exec-2] Securing GET /api/prenotazioni/membro/1/attiva?attivitaId=1
+2024-12-04 00:02:25,390 DEBUG o.s.s.w.a.AnonymousAuthenticationFilter [http-nio-8080-exec-2] Set SecurityContextHolder to anonymous SecurityContext
+2024-12-04 00:02:25,393 DEBUG o.s.s.w.FilterChainProxy [http-nio-8080-exec-2] Secured GET /api/prenotazioni/membro/1/attiva?attivitaId=1
+2024-12-04 00:02:25,400 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-2] 
+    select
+        p1_0.id,
+        p1_0.attivita_id,
+        p1_0.is_deleted,
+        p1_0.membro_id,
+        p1_0.numero,
+        p1_0.ora_prenotazione,
+        p1_0.qr_code,
+        p1_0.stato 
+    from
+        prenotazioni p1_0 
+    where
+        p1_0.membro_id=? 
+        and p1_0.attivita_id=? 
+        and not(p1_0.is_deleted)
+2024-12-04 00:02:25,407 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-2] 
+    select
+        a1_0.id,
+        a1_0.data_ora,
+        a1_0.descrizione,
+        a1_0.is_deleted,
+        a1_0.luogo,
+        a1_0.num_max_partecipanti,
+        a1_0.titolo 
+    from
+        attivita a1_0 
+    where
+        a1_0.id=?
+2024-12-04 00:02:25,410 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-2] 
+    select
+        m1_0.id,
+        m1_0.categoria,
+        m1_0.certificato_studente,
+        m1_0.codice_fiscale,
+        m1_0.cognome,
+        m1_0.data_iscrizione,
+        m1_0.data_ultimo_rinnovo,
+        m1_0.dichiarazione_isee,
+        m1_0.email,
+        m1_0.is_deleted,
+        m1_0.nome,
+        m1_0.passaporto,
+        m1_0.password,
+        m1_0.permesso_soggiorno,
+        m1_0.stato,
+        m1_0.telefono 
+    from
+        membri m1_0 
+    where
+        m1_0.id=?
+2024-12-04 00:03:11,136 DEBUG o.s.s.w.FilterChainProxy [http-nio-8080-exec-4] Securing GET /api/prenotazioni/membro/1/attiva?attivitaId=3
+2024-12-04 00:03:11,136 DEBUG o.s.s.w.a.AnonymousAuthenticationFilter [http-nio-8080-exec-4] Set SecurityContextHolder to anonymous SecurityContext
+2024-12-04 00:03:11,138 DEBUG o.s.s.w.FilterChainProxy [http-nio-8080-exec-4] Secured GET /api/prenotazioni/membro/1/attiva?attivitaId=3
+2024-12-04 00:03:11,141 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-4] 
+    select
+        p1_0.id,
+        p1_0.attivita_id,
+        p1_0.is_deleted,
+        p1_0.membro_id,
+        p1_0.numero,
+        p1_0.ora_prenotazione,
+        p1_0.qr_code,
+        p1_0.stato 
+    from
+        prenotazioni p1_0 
+    where
+        p1_0.membro_id=? 
+        and p1_0.attivita_id=? 
+        and not(p1_0.is_deleted)
+2024-12-04 00:13:17,287 INFO o.s.a.r.l.SimpleMessageListenerContainer [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-2] Waiting for workers to finish.
+2024-12-04 00:13:17,327 INFO o.s.a.r.l.SimpleMessageListenerContainer [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-2] Successfully waited for workers to finish.
+2024-12-04 00:13:17,354 INFO o.s.o.j.AbstractEntityManagerFactoryBean [SpringApplicationShutdownHook] Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-04 00:13:17,361 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown initiated...
+2024-12-04 00:13:17,364 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown completed.

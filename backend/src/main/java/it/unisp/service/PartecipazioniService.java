@@ -11,14 +11,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class PartecipazioniService {
     private final PartecipazioniRepository partecipazioniRepository;
-    private final NotificaService notificaService;
+    private final NotificheService notificaService;
     private final MembriService membriService;
     private final AttivitaService attivitaService;
+
+    public List<Partecipazioni> getAllPartecipazioni() {
+        return partecipazioniRepository.findByIsDeletedFalse();
+    }
 
     public List<Partecipazioni> getPartecipazioniByMembro(Long membroId) {
         return partecipazioniRepository.findByMembroIdAndIsDeletedFalse(membroId);
@@ -32,7 +37,7 @@ public class PartecipazioniService {
     public Partecipazioni registraPartecipazione(Long membroId, Long attivitaId, Boolean presente, Long delegatoId) {
         // Verifica limiti assenze
         long assenzeCount = contaAssenze(membroId);
-        if (assenzeCount >= 5) {
+        if (assenzeCount > 5) {
             throw new LimitReachedException("Limite massimo di assenze raggiunto");
         }
 
@@ -49,7 +54,9 @@ public class PartecipazioniService {
         partecipazione.setMembro(membriService.getMembroById(membroId)); // Assumendo che tu abbia un modo per ottenere l'oggetto Membri
         partecipazione.setAttivita(attivitaService.getAttivitaById(attivitaId)); // Assumendo che tu abbia un modo per ottenere l'oggetto Attivita
         partecipazione.setPresente(presente);
+        partecipazione.setDelegato(membriService.getMembroById(delegatoId));
         partecipazione.setDataCreazione(LocalDateTime.now());
+        partecipazione.setDataPartecipazione(LocalDateTime.now());
 
         // Salva la partecipazione
         Partecipazioni saved = partecipazioniRepository.save(partecipazione);
@@ -58,7 +65,7 @@ public class PartecipazioniService {
         if (!partecipazione.isPresente()) {
             long nuoveAssenze = contaAssenze(partecipazione.getMembro().getId());
             if (nuoveAssenze == 3 || nuoveAssenze == 4 || nuoveAssenze == 5) {
-                notificaService.inviaNotificaAssenze(partecipazione.getMembro(), nuoveAssenze);
+                notificaService.inviaNotificheAssenze(partecipazione.getMembro(), nuoveAssenze);
             }
         }
 
@@ -77,4 +84,8 @@ public class PartecipazioniService {
                 .count();
     }
 
+
+    public Partecipazioni getPartecipazioniById(Long id) {
+        return partecipazioniRepository.findByIdAndIsDeletedFalse(id);
+    }
 }

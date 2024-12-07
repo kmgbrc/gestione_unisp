@@ -380,7 +380,7 @@ java.lang.NullPointerException: Cannot invoke "org.hibernate.engine.jdbc.spi.Sql
 	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
 2024-12-03 10:57:16,929 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 10:57:18,015 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 10:57:18,015 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 10:57:18,299 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 10:57:18,325 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Starting...
 2024-12-03 10:57:19,375 ERROR c.z.h.p.HikariPool [main] HikariPool-1 - Exception during pool initialization.
@@ -841,7 +841,7 @@ Caused by: org.postgresql.util.PSQLException: FATAL: password authentication fai
 2024-12-03 11:00:55,636 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@78e387d6
 2024-12-03 11:00:55,640 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 11:00:55,714 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 11:00:56,838 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 11:00:56,838 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 11:00:57,122 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 11:00:57,211 ERROR o.s.o.j.AbstractEntityManagerFactoryBean [main] Failed to initialize JPA EntityManagerFactory: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.tool.schema.spi.SchemaManagementException: Schema-validation: missing column [password] in table [membri]
 2024-12-03 11:00:57,211 WARN o.s.c.s.AbstractApplicationContext [main] Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.tool.schema.spi.SchemaManagementException: Schema-validation: missing column [password] in table [membri]
@@ -1110,7 +1110,7 @@ Caused by: org.hibernate.tool.schema.spi.SchemaManagementException: Schema-valid
 2024-12-03 11:04:39,948 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@78e387d6
 2024-12-03 11:04:39,951 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 11:04:40,019 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 11:04:41,127 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 11:04:41,127 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 11:04:41,461 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 11:04:41,537 ERROR o.s.o.j.AbstractEntityManagerFactoryBean [main] Failed to initialize JPA EntityManagerFactory: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.tool.schema.spi.SchemaManagementException: Schema-validation: wrong column type encountered in column [importo] in table [pagamenti]; found [float8 (Types#DOUBLE)], but expecting [numeric(38,2) (Types#NUMERIC)]
 2024-12-03 11:04:41,538 WARN o.s.c.s.AbstractApplicationContext [main] Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.tool.schema.spi.SchemaManagementException: Schema-validation: wrong column type encountered in column [importo] in table [pagamenti]; found [float8 (Types#DOUBLE)], but expecting [numeric(38,2) (Types#NUMERIC)]
@@ -1381,7 +1381,7 @@ Caused by: org.hibernate.tool.schema.spi.SchemaManagementException: Schema-valid
 2024-12-03 11:06:54,020 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@78e387d6
 2024-12-03 11:06:54,023 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 11:06:54,094 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 11:06:55,187 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 11:06:55,187 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 11:06:55,513 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 11:06:55,613 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 11:06:56,147 WARN o.s.c.s.AbstractApplicationContext [main] Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'authenticationController' defined in file [D:\UNISP-SITE\gestione_unisp\backend\target\classes\it\unisp\auth\AuthenticationController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'authenticationService' defined in file [D:\UNISP-SITE\gestione_unisp\backend\target\classes\it\unisp\auth\AuthenticationService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'membriRepository' defined in it.unisp.repository.MembriRepository defined in @EnableJpaRepositories declared on JpaRepositoriesRegistrar.EnableJpaRepositoriesConfiguration: Could not create query for public abstract it.unisp.model.Membri it.unisp.repository.MembriRepository.findByMembroIdAndIsDeletedFalse(java.lang.Long); Reason: Failed to create query for method public abstract it.unisp.model.Membri it.unisp.repository.MembriRepository.findByMembroIdAndIsDeletedFalse(java.lang.Long); No property 'membroId' found for type 'Membri'
@@ -1779,7 +1779,7 @@ Caused by: org.springframework.data.mapping.PropertyReferenceException: No prope
 2024-12-03 11:08:53,551 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@9147ba2
 2024-12-03 11:08:53,554 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 11:08:53,614 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 11:08:54,688 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 11:08:54,688 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 11:08:54,972 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 11:08:55,034 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 11:08:55,575 WARN o.s.c.s.AbstractApplicationContext [main] Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'prenotazioneConsumer' defined in file [D:\UNISP-SITE\gestione_unisp\backend\target\classes\it\unisp\coda\PrenotazioneConsumer.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'prenotazioneService' defined in file [D:\UNISP-SITE\gestione_unisp\backend\target\classes\it\unisp\service\PrenotazioneService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'prenotazioniRepository' defined in it.unisp.repository.PrenotazioniRepository defined in @EnableJpaRepositories declared on JpaRepositoriesRegistrar.EnableJpaRepositoriesConfiguration: Could not create query for public abstract void it.unisp.repository.PrenotazioniRepository.softDeleteOldPrenotazioni(java.time.LocalDateTime); Reason: Failed to create query for method public abstract void it.unisp.repository.PrenotazioniRepository.softDeleteOldPrenotazioni(java.time.LocalDateTime); No property 'softDeleteOldPrenotazioni' found for type 'Prenotazioni'
@@ -2177,7 +2177,7 @@ Caused by: org.springframework.data.mapping.PropertyReferenceException: No prope
 2024-12-03 11:23:03,111 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4a453f8d
 2024-12-03 11:23:03,120 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 11:23:03,168 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 11:23:04,368 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 11:23:04,368 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 11:23:04,673 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 11:23:04,803 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 11:23:05,565 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -2576,7 +2576,7 @@ Caused by: org.springframework.data.mapping.PropertyReferenceException: No prope
 2024-12-03 11:26:18,453 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4a453f8d
 2024-12-03 11:26:18,456 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 11:26:18,520 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 11:26:19,541 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 11:26:19,541 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 11:26:19,818 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 11:26:19,877 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 11:26:20,504 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -2975,7 +2975,7 @@ Caused by: org.springframework.data.mapping.PropertyReferenceException: No prope
 2024-12-03 11:36:13,862 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4a453f8d
 2024-12-03 11:36:13,864 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 11:36:13,919 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 11:36:14,956 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 11:36:14,956 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 11:36:15,222 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 11:36:15,285 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 11:36:15,882 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -3226,7 +3226,7 @@ Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'ap
 2024-12-03 11:41:23,748 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4a453f8d
 2024-12-03 11:41:23,751 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 11:41:23,799 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 11:41:25,108 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 11:41:25,108 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 11:41:25,694 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 11:41:25,761 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 11:41:26,393 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -3477,7 +3477,7 @@ Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'ap
 2024-12-03 12:03:41,861 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@53525379
 2024-12-03 12:03:41,864 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 12:03:41,936 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 12:03:43,537 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 12:03:43,537 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 12:03:44,058 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 12:03:44,144 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 12:03:45,418 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -3728,7 +3728,7 @@ Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'ap
 2024-12-03 12:04:49,597 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4a453f8d
 2024-12-03 12:04:49,600 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 12:04:49,656 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 12:04:50,719 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 12:04:50,719 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 12:04:51,007 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 12:04:51,072 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 12:04:51,700 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -3761,7 +3761,7 @@ Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'ap
 2024-12-03 12:05:43,746 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@574ebdaf
 2024-12-03 12:05:43,748 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 12:05:43,788 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 12:05:44,611 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 12:05:44,611 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 12:05:44,845 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 12:05:44,902 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 12:05:45,386 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -3807,7 +3807,7 @@ Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'ap
 2024-12-03 12:16:58,557 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@574ebdaf
 2024-12-03 12:16:58,560 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 12:16:58,600 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 12:16:59,424 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 12:16:59,424 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 12:16:59,655 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 12:16:59,714 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 12:17:00,197 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -3982,7 +3982,7 @@ io.jsonwebtoken.MalformedJwtException: JWT strings must contain exactly 2 period
 2024-12-03 12:56:33,514 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4a453f8d
 2024-12-03 12:56:33,518 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 12:56:33,581 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 12:56:34,820 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 12:56:34,820 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 12:56:35,143 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 12:56:35,206 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 12:56:35,839 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -4015,7 +4015,7 @@ io.jsonwebtoken.MalformedJwtException: JWT strings must contain exactly 2 period
 2024-12-03 12:57:19,069 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@574ebdaf
 2024-12-03 12:57:19,071 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 12:57:19,112 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 12:57:19,976 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 12:57:19,976 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 12:57:20,224 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 12:57:20,285 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 12:57:20,820 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -4086,7 +4086,7 @@ io.jsonwebtoken.MalformedJwtException: JWT strings must contain exactly 2 period
 2024-12-03 13:09:02,564 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@574ebdaf
 2024-12-03 13:09:02,567 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 13:09:02,611 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 13:09:03,467 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 13:09:03,467 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 13:09:03,718 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 13:09:03,778 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 13:09:04,289 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -4145,7 +4145,7 @@ io.jsonwebtoken.MalformedJwtException: JWT strings must contain exactly 2 period
 2024-12-03 13:10:10,691 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@53525379
 2024-12-03 13:10:10,693 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 13:10:10,744 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 13:10:11,809 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 13:10:11,809 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 13:10:12,120 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 13:10:12,181 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 13:10:12,797 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -4178,7 +4178,7 @@ io.jsonwebtoken.MalformedJwtException: JWT strings must contain exactly 2 period
 2024-12-03 13:12:24,094 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@574ebdaf
 2024-12-03 13:12:24,097 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 13:12:24,137 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 13:12:25,069 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 13:12:25,069 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 13:12:25,313 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 13:12:25,374 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 13:12:25,893 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -4243,7 +4243,7 @@ io.jsonwebtoken.MalformedJwtException: JWT strings must contain exactly 2 period
 2024-12-03 13:16:27,260 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@574ebdaf
 2024-12-03 13:16:27,262 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 13:16:27,301 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 13:16:28,180 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 13:16:28,180 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 13:16:28,425 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 13:16:28,487 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 13:16:28,994 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -4308,7 +4308,7 @@ io.jsonwebtoken.MalformedJwtException: JWT strings must contain exactly 2 period
 2024-12-03 13:23:53,727 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@574ebdaf
 2024-12-03 13:23:53,729 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 13:23:53,768 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 13:23:54,611 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 13:23:54,611 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 13:23:54,855 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 13:23:54,916 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 13:23:55,445 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [main] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
@@ -4373,7 +4373,7 @@ io.jsonwebtoken.MalformedJwtException: JWT strings must contain exactly 2 period
 2024-12-03 13:25:47,531 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@54daf8f9
 2024-12-03 13:25:47,533 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 13:25:47,576 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 13:25:48,467 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 13:25:48,467 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 13:25:48,721 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 13:25:48,781 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 13:25:49,330 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [main] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
@@ -4462,7 +4462,7 @@ io.jsonwebtoken.MalformedJwtException: JWT strings must contain exactly 2 period
 2024-12-03 13:59:14,321 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@377e573a
 2024-12-03 13:59:14,323 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 13:59:14,395 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 13:59:15,362 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 13:59:15,362 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 13:59:15,609 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 13:59:15,712 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 13:59:16,280 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [main] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
@@ -4509,7 +4509,7 @@ Identify and stop the process that's listening on port 8080 or configure this ap
 2024-12-03 14:00:51,043 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@33f349ae
 2024-12-03 14:00:51,045 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 14:00:51,092 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 14:00:51,964 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 14:00:51,964 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 14:00:52,204 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 14:00:52,268 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 14:00:52,791 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [main] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
@@ -4556,7 +4556,7 @@ Identify and stop the process that's listening on port 8080 or configure this ap
 2024-12-03 14:04:07,082 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7d626f2
 2024-12-03 14:04:07,084 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 14:04:07,167 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 14:04:08,157 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 14:04:08,157 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 14:04:08,413 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 14:04:08,509 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 14:04:09,075 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [main] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
@@ -4699,7 +4699,7 @@ Identify and stop the process that's listening on port 8080 or configure this ap
 2024-12-03 14:19:27,917 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@33f349ae
 2024-12-03 14:19:27,919 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 14:19:27,968 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 14:19:28,937 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 14:19:28,937 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 14:19:29,195 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 14:19:29,255 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 14:19:29,796 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [main] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
@@ -4764,7 +4764,7 @@ Identify and stop the process that's listening on port 8080 or configure this ap
 2024-12-03 16:11:07,246 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@31e7afde
 2024-12-03 16:11:07,248 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 16:11:07,289 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 16:11:08,165 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 16:11:08,165 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 16:11:08,409 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 16:11:08,469 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 16:11:08,856 WARN o.s.c.s.AbstractApplicationContext [main] Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'authenticationController' defined in file [D:\UNISP-SITE\gestione_unisp\backend\target\classes\it\unisp\auth\AuthenticationController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'authenticationService' defined in file [D:\UNISP-SITE\gestione_unisp\backend\target\classes\it\unisp\auth\AuthenticationService.class]: Unsatisfied dependency expressed through constructor parameter 2: Error creating bean with name 'securityConfig': Unsatisfied dependency expressed through field 'customAuthenticationProvider': Error creating bean with name 'customAuthenticationProvider': Unsatisfied dependency expressed through field 'passwordEncoder': Error creating bean with name 'securityConfig': Requested bean is currently in creation: Is there an unresolvable circular reference?
@@ -4812,7 +4812,7 @@ Relying upon circular references is discouraged and they are prohibited by defau
 2024-12-03 16:12:28,069 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@78e387d6
 2024-12-03 16:12:28,072 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 16:12:28,119 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 16:12:29,269 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 16:12:29,269 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 16:12:29,552 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 16:12:29,617 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 16:12:30,108 WARN o.s.c.s.AbstractApplicationContext [main] Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'authenticationController' defined in file [D:\UNISP-SITE\gestione_unisp\backend\target\classes\it\unisp\auth\AuthenticationController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'authenticationService' defined in file [D:\UNISP-SITE\gestione_unisp\backend\target\classes\it\unisp\auth\AuthenticationService.class]: Unsatisfied dependency expressed through constructor parameter 2: Error creating bean with name 'securityConfig': Unsatisfied dependency expressed through field 'customAuthenticationProvider': Error creating bean with name 'customAuthenticationProvider': Unsatisfied dependency expressed through field 'passwordEncoder': Error creating bean with name 'securityConfig': Requested bean is currently in creation: Is there an unresolvable circular reference?
@@ -5163,7 +5163,7 @@ Caused by: org.springframework.beans.factory.support.BeanDefinitionOverrideExcep
 2024-12-03 16:22:37,549 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@53525379
 2024-12-03 16:22:37,552 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 16:22:37,603 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 16:22:38,716 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 16:22:38,716 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 16:22:39,005 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 16:22:39,078 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 16:22:39,677 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -5196,7 +5196,7 @@ Caused by: org.springframework.beans.factory.support.BeanDefinitionOverrideExcep
 2024-12-03 16:23:05,587 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3cdfbbef
 2024-12-03 16:23:05,589 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 16:23:05,629 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 16:23:06,487 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 16:23:06,487 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 16:23:06,737 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 16:23:06,799 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 16:23:07,270 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -5285,7 +5285,7 @@ Caused by: org.springframework.beans.factory.support.BeanDefinitionOverrideExcep
 2024-12-03 16:30:31,565 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3cdfbbef
 2024-12-03 16:30:31,568 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 16:30:31,607 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 16:30:32,487 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 16:30:32,487 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 16:30:32,757 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 16:30:32,820 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 16:30:33,320 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -5424,7 +5424,7 @@ Caused by: org.springframework.beans.factory.support.BeanDefinitionOverrideExcep
 2024-12-03 16:31:22,112 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3cdfbbef
 2024-12-03 16:31:22,115 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 16:31:22,155 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 16:31:23,045 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 16:31:23,045 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 16:31:23,284 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 16:31:23,345 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 16:31:23,860 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -5482,7 +5482,7 @@ Caused by: org.springframework.beans.factory.support.BeanDefinitionOverrideExcep
 2024-12-03 18:41:49,758 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5503c7d
 2024-12-03 18:41:49,761 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 18:41:49,825 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 18:41:50,978 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 18:41:50,978 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 18:41:51,256 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 18:41:51,315 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 18:41:51,789 WARN o.s.c.s.AbstractApplicationContext [main] Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'authenticationController' defined in file [D:\UNISP-SITE\gestione_unisp\backend\target\classes\it\unisp\auth\AuthenticationController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'authenticationService' defined in file [D:\UNISP-SITE\gestione_unisp\backend\target\classes\it\unisp\auth\AuthenticationService.class]: Unsatisfied dependency expressed through constructor parameter 1: No qualifying bean of type 'org.springframework.security.crypto.password.PasswordEncoder' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
@@ -5647,7 +5647,7 @@ Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No q
 2024-12-03 18:43:25,329 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@2be50bba
 2024-12-03 18:43:25,333 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 18:43:25,385 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 18:43:26,476 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 18:43:26,476 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 18:43:26,785 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 18:43:26,851 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 18:43:27,464 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -5674,7 +5674,7 @@ Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No q
 2024-12-03 18:45:58,736 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4f541e67
 2024-12-03 18:45:58,739 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 18:45:58,793 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 18:45:59,962 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 18:45:59,962 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 18:46:00,249 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 18:46:00,320 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 18:46:00,855 WARN o.s.c.s.AbstractApplicationContext [main] Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'authenticationController' defined in file [D:\UNISP-SITE\gestione_unisp\backend\target\classes\it\unisp\auth\AuthenticationController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'authenticationService' defined in file [D:\UNISP-SITE\gestione_unisp\backend\target\classes\it\unisp\auth\AuthenticationService.class]: Unsatisfied dependency expressed through constructor parameter 3: No qualifying bean of type 'org.springframework.security.authentication.AuthenticationManager' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
@@ -5839,7 +5839,7 @@ Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No q
 2024-12-03 18:48:34,965 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7827d7b
 2024-12-03 18:48:34,967 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 18:48:35,019 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 18:48:36,149 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 18:48:36,149 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 18:48:36,478 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 18:48:36,550 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 18:48:37,158 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -5872,7 +5872,7 @@ Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No q
 2024-12-03 18:48:59,463 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7d4d65f5
 2024-12-03 18:48:59,466 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 18:48:59,505 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 18:49:00,368 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 18:49:00,368 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 18:49:00,620 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 18:49:00,680 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 18:49:01,190 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -6093,7 +6093,7 @@ Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No q
 2024-12-03 18:57:15,873 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@38cf3ae1
 2024-12-03 18:57:15,875 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 18:57:15,916 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 18:57:16,801 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 18:57:16,801 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 18:57:17,080 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 18:57:17,145 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 18:57:17,749 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -6236,7 +6236,7 @@ Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No q
 2024-12-03 18:58:18,972 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@38cf3ae1
 2024-12-03 18:58:18,975 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 18:58:19,019 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 18:58:19,908 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 18:58:19,908 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 18:58:20,159 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 18:58:20,219 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 18:58:20,731 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -6295,7 +6295,7 @@ Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No q
 2024-12-03 19:09:54,929 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5315266
 2024-12-03 19:09:54,933 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 19:09:54,989 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 19:09:56,078 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 19:09:56,078 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 19:09:56,350 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 19:09:56,408 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 19:09:57,029 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -6328,7 +6328,7 @@ Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No q
 2024-12-03 19:10:22,623 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@38cf3ae1
 2024-12-03 19:10:22,625 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 19:10:22,665 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 19:10:23,534 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 19:10:23,534 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 19:10:23,782 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 19:10:23,841 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 19:10:24,362 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -6393,7 +6393,7 @@ Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No q
 2024-12-03 19:17:10,314 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@38cf3ae1
 2024-12-03 19:17:10,316 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 19:17:10,361 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 19:17:11,253 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 19:17:11,253 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 19:17:11,512 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 19:17:11,587 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 19:17:12,390 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -6557,7 +6557,7 @@ Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No q
 2024-12-03 19:19:05,683 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@123ca460
 2024-12-03 19:19:05,686 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 19:19:05,726 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 19:19:06,568 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 19:19:06,568 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 19:19:06,817 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 19:19:06,886 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 19:19:07,446 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -6592,7 +6592,7 @@ Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No q
 2024-12-03 19:21:48,717 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@38cf3ae1
 2024-12-03 19:21:48,720 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 19:21:48,759 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 19:21:49,621 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 19:21:49,621 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 19:21:49,869 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 19:21:49,930 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 19:21:50,456 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -6656,7 +6656,7 @@ Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No q
 2024-12-03 19:32:43,089 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@38cf3ae1
 2024-12-03 19:32:43,091 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 19:32:43,133 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 19:32:43,993 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 19:32:43,993 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 19:32:44,236 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 19:32:44,297 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 19:32:44,810 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -6745,7 +6745,7 @@ Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No q
 2024-12-03 19:38:25,878 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@38cf3ae1
 2024-12-03 19:38:25,880 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 19:38:25,921 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 19:38:26,839 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 19:38:26,839 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 19:38:27,109 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 19:38:27,170 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 19:38:27,740 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -6809,7 +6809,7 @@ Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No q
 2024-12-03 19:49:24,733 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@38cf3ae1
 2024-12-03 19:49:24,736 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 19:49:24,778 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 19:49:25,696 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 19:49:25,696 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 19:49:25,964 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 19:49:26,025 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 19:49:26,575 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -6873,7 +6873,7 @@ Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No q
 2024-12-03 19:50:32,261 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@38cf3ae1
 2024-12-03 19:50:32,263 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 19:50:32,304 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 19:50:33,228 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 19:50:33,228 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 19:50:33,479 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 19:50:33,542 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 19:50:34,073 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -6938,7 +6938,7 @@ Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No q
 2024-12-03 20:02:55,506 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@38cf3ae1
 2024-12-03 20:02:55,509 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 20:02:55,550 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 20:02:56,443 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 20:02:56,443 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 20:02:56,705 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 20:02:56,769 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 20:02:57,314 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -7002,7 +7002,7 @@ Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No q
 2024-12-03 20:14:29,812 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@76db9048
 2024-12-03 20:14:29,814 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 20:14:29,857 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 20:14:30,778 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 20:14:30,778 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 20:14:31,029 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 20:14:31,089 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 20:14:31,635 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -7066,7 +7066,7 @@ Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No q
 2024-12-03 20:40:28,378 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@76db9048
 2024-12-03 20:40:28,381 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 20:40:28,428 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 20:40:29,317 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 20:40:29,317 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 20:40:29,569 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 20:40:29,630 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 20:40:30,160 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -7205,7 +7205,7 @@ Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No q
 2024-12-03 21:43:51,456 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@76db9048
 2024-12-03 21:43:51,458 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 21:43:51,499 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 21:43:52,409 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 21:43:52,409 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 21:43:52,654 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 21:43:52,716 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 21:43:53,240 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -7269,7 +7269,7 @@ Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No q
 2024-12-03 21:49:49,576 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@76db9048
 2024-12-03 21:49:49,578 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 21:49:49,620 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 21:49:50,489 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 21:49:50,489 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 21:49:50,727 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 21:49:50,797 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 21:49:51,315 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -7359,7 +7359,7 @@ Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No q
 2024-12-03 21:52:39,902 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@76db9048
 2024-12-03 21:52:39,905 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 21:52:39,946 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 21:52:40,836 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 21:52:40,836 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 21:52:41,095 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 21:52:41,155 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 21:52:41,680 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -7449,7 +7449,7 @@ Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No q
 2024-12-03 22:02:15,475 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@76db9048
 2024-12-03 22:02:15,478 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 22:02:15,518 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 22:02:16,409 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 22:02:16,409 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 22:02:16,662 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 22:02:16,722 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 22:02:17,256 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -7589,7 +7589,7 @@ Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No q
 2024-12-03 22:13:28,864 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@76db9048
 2024-12-03 22:13:28,866 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 22:13:28,915 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 22:13:29,792 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 22:13:29,792 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 22:13:30,036 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 22:13:30,097 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 22:13:30,627 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
@@ -7634,7 +7634,7 @@ Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No q
 2024-12-03 22:15:33,796 INFO c.z.h.p.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@76db9048
 2024-12-03 22:15:33,798 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
 2024-12-03 22:15:33,837 WARN o.h.e.j.d.i.DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-12-03 22:15:34,702 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifica (class must be instantiated by Interceptor)
+2024-12-03 22:15:34,702 INFO o.h.m.i.EntityInstantiatorPojoStandard [main] HHH000182: No default (no-argument) constructor for class: it.unisp.model.Notifiche (class must be instantiated by Interceptor)
 2024-12-03 22:15:34,945 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 2024-12-03 22:15:35,006 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-12-03 22:15:35,519 INFO o.s.d.j.r.q.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.

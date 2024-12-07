@@ -64,4 +64,10 @@ public class GlobalExceptionHandler {
             HttpStatus.INTERNAL_SERVER_ERROR
         );
     }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<String> handleAccessDeniedException(AccessDeniedException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body("Accesso negato: " + ex.getMessage());
+    }
 }

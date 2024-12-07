@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -25,11 +27,15 @@ public class Membri implements UserDetails {
     private Long id;
 
     @Column(nullable = false)
+    @NotBlank(message = "Nome è obbligatorio")
     private String nome;
 
     @Column(nullable = false)
+    @NotBlank(message = "Cognome è obbligatorio")
     private String cognome;
 
+    @NotBlank(message = "Email è obbligatoria")
+    @Email(message = "Email non valida")
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -42,6 +48,7 @@ public class Membri implements UserDetails {
     private StatoMembro stato;
 
     @Column(name = "codice_fiscale", nullable = false)
+    @NotBlank(message = "Codice Fiscale è obbligatorio")
     private String codiceFiscale;
 
     @Column(name = "permesso_soggiorno")

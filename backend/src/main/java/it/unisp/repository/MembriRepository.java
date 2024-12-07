@@ -1,7 +1,6 @@
 package it.unisp.repository;
 
 import it.unisp.model.Membri;
-import it.unisp.model.Partecipazioni;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,4 +15,7 @@ public interface MembriRepository extends JpaRepository<Membri, Long> {
     Optional<Membri> findByCodiceFiscale(String codiceFiscale);
     Membri findByIdAndIsDeletedFalse(Long membroId);
     List<Membri> findByDataUltimoRinnovoBetween(LocalDate startDate, LocalDate endDate);
+    List<Membri> findByStato(String stato);
+
+    List<Membri> findByIsDeletedFalse();
 }
