@@ -5,8 +5,10 @@ import it.unisp.model.Membri;
 import it.unisp.service.AttivitaService;
 import it.unisp.service.MembriService;
 import it.unisp.service.NotificheService;
+import it.unisp.service.PartecipazioniService;
 import it.unisp.util.EmailSender;
 import lombok.RequiredArgsConstructor;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -19,8 +21,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class NotificationTask {
 
-    private final NotificheService notificaService;
+    private final NotificheService notificheService;
     private final AttivitaService attivitaService;
+    private final PartecipazioniService partecipazioniService;
     private final EmailSender emailSender;
     private final MembriService membriService;
 
@@ -29,14 +32,14 @@ public class NotificationTask {
         // Notifiche per rinnovo iscrizione
         membriService.getMembriConIscrizioneInScadenza().forEach(membro -> {
             String messaggio = "La tua iscrizione scadrà tra 30 giorni. Ricordati di rinnovarla.";
-            notificaService.creaNotifiche(membro.getId(), messaggio);
+            notificheService.creaNotifiche(membro.getId(), messaggio);
             emailSender.inviaNotifiche(membro.getEmail(), "Rinnovo Iscrizione", messaggio);
         });
 
         // Notifiche per documenti mancanti
         membriService.getMembriConDocumentiMancanti().forEach(membro -> {
             String messaggio = "Hai documenti mancanti o scaduti. Accedi al portale per verificare.";
-            notificaService.creaNotifiche(membro.getId(), messaggio);
+            notificheService.creaNotifiche(membro.getId(), messaggio);
             emailSender.inviaNotifiche(membro.getEmail(), "Documenti Mancanti", messaggio);
         });
     }
@@ -64,7 +67,7 @@ public class NotificationTask {
 
             // Invia la notifica a tutti i membri
             for (Membri membro : tuttiIMembri) {
-                notificaService.creaNotifiche(membro.getId(), messaggio);
+                notificheService.creaNotifiche(membro.getId(), messaggio);
             }
         }
     }
@@ -92,8 +95,32 @@ public class NotificationTask {
 
             // Invia la notifica a tutti i membri
             for (Membri membro : tuttiIMembri) {
-                notificaService.creaNotifiche(membro.getId(), messaggio);
+                notificheService.creaNotifiche(membro.getId(), messaggio);
             }
         }
     }
+
+    @Scheduled(cron = "0 0 22 * * *") // Ogni giorno alle 22:00
+    public void inviaNotificheAssenze() {
+        List<Membri> membri = membriService.getAllMembri(); // Recupera tutti i membri
+
+        for (Membri membro : membri) {
+            long numeroAssenze = partecipazioniService.countPartecipazioniNonPresenti(membro.getId());
+
+            if (numeroAssenze == 4) {
+                String messaggio = String.format("Attenzione: hai raggiunto %d assenze quest'anno.", numeroAssenze);
+
+                // Salva notifica nel database
+                notificheService.creaNotifiche(membro.getId(), messaggio);
+
+                // Invia email
+                SimpleMailMessage email = new SimpleMailMessage();
+                email.setTo(membro.getEmail());
+                email.setSubject("Notifiche Assenze UNISP");
+                email.setText(messaggio);
+                //mailSender.send(email);
+            }
+        }
+    }
+
 }

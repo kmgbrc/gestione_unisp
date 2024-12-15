@@ -93,6 +93,7 @@ CREATE TABLE prenotazioni (
                               numero INT NOT NULL,
                               membro_id BIGINT NOT NULL REFERENCES membri(id) ON DELETE CASCADE,  -- BIGINT pour clé étrangère
                               attivita_id BIGINT NOT NULL REFERENCES attivita(id) ON DELETE CASCADE,  -- BIGINT pour clé étrangère
+                              delegato_id BIGINT REFERENCES membri(id),
                               stato VARCHAR(20) NOT NULL CHECK (stato IN ('attiva', 'annullata', 'validata')),
                               qr_code VARCHAR(255) NOT NULL,
                               ora_prenotazione TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

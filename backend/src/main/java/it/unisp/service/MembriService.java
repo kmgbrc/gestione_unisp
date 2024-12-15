@@ -1,6 +1,8 @@
 package it.unisp.service;
 
+import it.unisp.model.CategoriaMembro;
 import it.unisp.model.Membri;
+import it.unisp.model.StatoMembro;
 import it.unisp.repository.MembriRepository;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
@@ -50,7 +52,9 @@ public class MembriService {
         logger.info("Password per l'email {} è stata codificata.", membro.getEmail());
 
         // Imposta le date di iscrizione e ultimo rinnovo
-        membro.setDataIscrizione(LocalDate.now());
+        if(membro.getCategoria()== null) membro.setCategoria(CategoriaMembro.volontario);
+        membro.setStato(StatoMembro.inattivo);
+        membro.setDataCreazione(LocalDate.now());
         membro.setDataUltimoRinnovo(LocalDate.now());
         logger.info("Data di iscrizione e ultimo rinnovo impostate per il membro: {}", membro.getEmail());
 
@@ -81,8 +85,19 @@ public class MembriService {
             .map(esistente -> {
                 esistente.setNome(membro.getNome());
                 esistente.setCognome(membro.getCognome());
+                esistente.setEmail(membro.getEmail());
                 esistente.setTelefono(membro.getTelefono());
+                esistente.setCategoria(membro.getCategoria());
                 esistente.setStato(membro.getStato());
+                esistente.setCodiceFiscale(membro.getCodiceFiscale());
+                esistente.setPermessoSoggiorno(membro.isPermessoSoggiorno());
+                esistente.setPassaporto(membro.isPassaporto());
+                esistente.setCertificatoStudente(membro.isCertificatoStudente());
+                esistente.setDichiarazioneIsee(membro.isDichiarazioneIsee());
+                esistente.setDataCreazione(membro.getDataCreazione());
+                esistente.setDataUltimoRinnovo(membro.getDataUltimoRinnovo());
+                esistente.setPassword(membro.getPassword());
+                esistente.setDeleted(membro.isDeleted());
                 return membriRepository.save(esistente);
             })
             .orElseThrow(() -> new RuntimeException("Membro non trovato"));
@@ -122,4 +137,8 @@ public class MembriService {
                 )
                 .collect(Collectors.toList());
     }
+
+    public Membri findByEmail(String email){
+        return membriRepository.findByEmail(email);
+    };
 }

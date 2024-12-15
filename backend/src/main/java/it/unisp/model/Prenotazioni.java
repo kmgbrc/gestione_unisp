@@ -28,6 +28,10 @@ public class Prenotazioni {
     @JoinColumn(name = "attivita_id")
     private Attivita attivita;
 
+    @ManyToOne
+    @JoinColumn(name = "delegato_id", nullable = true)
+    private Membri delegato;
+
     private String stato;
 
     @Column(name = "qr_code")

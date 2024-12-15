@@ -1,4 +1,4 @@
-INSERT INTO membri (id, nome, cognome, email, password, telefono, categoria, stato, codice_fiscale, permesso_soggiorno, passaporto, certificato_studente, dichiarazione_isee, data_iscrizione, is_deleted)
+INSERT INTO membri (id, nome, cognome, email, password, telefono, categoria, stato, codice_fiscale, permesso_soggiorno, passaporto, certificato_studente, dichiarazione_isee, data_creazione, is_deleted)
 VALUES
     (1, 'Luca', 'Rossi', 'luca.rossi@example.com', 'luca', '1234567890', 'staff', 'attivo', 'RSSLCU80A01H501U', true, true, false, true, '2023-01-10', false),
     (2, 'Maria', 'Bianchi', 'maria.bianchi@example.com', 'maria', '1234567891', 'volontario', 'attivo', 'BNCMRA85B01H501H', false, false, true, false, '2023-02-15', false),

@@ -62,8 +62,8 @@ public class Membri implements UserDetails {
     @Column(name = "dichiarazione_isee")
     private boolean dichiarazioneIsee;
 
-    @Column(name = "data_iscrizione")
-    private LocalDate dataIscrizione;
+    @Column(name = "data_creazione")
+    private LocalDate dataCreazione;
 
     @Column(name = "data_ultimo_rinnovo")
     private LocalDate dataUltimoRinnovo;
@@ -71,6 +71,7 @@ public class Membri implements UserDetails {
     @Column(name = "is_deleted")
     private boolean isDeleted;
 
+    @Column(nullable = false)
     private String password;
 
     @Override

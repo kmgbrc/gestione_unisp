@@ -21,8 +21,11 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         try {
-            Membri membro = membriRepository.findByEmail(email)
-                    .orElseThrow(() -> new UsernameNotFoundException("Utente non trovato con email: " + email));
+            Membri membro = membriRepository.findByEmail(email);
+            if (membro == null) {
+                throw new UsernameNotFoundException("Utente non trovato con email: " + email);
+            }
+
 
             // Ottieni la categoria dell'utente
             String categoria = membro.getCategoria().name(); // Ottieni il nome dell'enum

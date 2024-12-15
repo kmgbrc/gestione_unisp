@@ -5,6 +5,8 @@ import it.unisp.model.Notifiche;
 import it.unisp.repository.MembriRepository;
 import it.unisp.repository.NotificheRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -18,72 +20,71 @@ public class NotificheService {
     private final NotificheRepository notificaRepository;
     private final MembriRepository membriRepository;
     private final JavaMailSender mailSender;
+    private static final Logger logger = LoggerFactory.getLogger(NotificheService.class);
 
+    public List<Notifiche> getNotificheMembro(Long membroId) {
+        try {
+            return notificaRepository.findByMembroIdAndIsDeletedFalseOrderByDataInvioDesc(membroId);
+        } catch (Exception e) {
+            throw new RuntimeException("Errore nel recupero delle notifiche per il membro con ID: " + membroId, e);
+        }
+    }
 
     public List<Notifiche> getAllNotifiche() {
-        return notificaRepository.findByIsDeletedFalse();
+        try {
+            return notificaRepository.findByIsDeletedFalse();
+        } catch (Exception e) {
+            logger.error("Errore nel recupero di tutte le notifiche: ", e);
+            throw new RuntimeException("Errore nel recupero di tutte le notifiche", e);
+        }
     }
 
     public Optional<Notifiche> getNotificaById(Long id) {
-        return notificaRepository.findById(id);
+        try {
+            return notificaRepository.findById(id);
+        } catch (Exception e) {
+            throw new RuntimeException("Errore nel recupero della notifica con ID: " + id, e);
+        }
     }
 
-    // Metodo per creare una notifica e salvarla nel database
-    public void creaNotifiche(Long membroId, String messaggio) {
-        // Trova il membro in base all'ID (presupponendo che tu abbia un metodo nel repository)
-        Membri membro = membriRepository.findById(membroId)
-                .orElseThrow(() -> new RuntimeException("Membro non trovato con ID: " + membroId));
-
-        // Salva notifica nel database
-        Notifiche notifica = new Notifiche(membro, messaggio, false); // Usa il costruttore
-        // Salva notifica nel database
-        notificaRepository.save(notifica);
-    }
-
-    public void inviaNotificheAssenze(Membri membro, long numeroAssenze) {
-        String messaggio = String.format("Attenzione: hai raggiunto %d assenze quest'anno.", numeroAssenze);
-
-        // Salva notifica nel database
-        creaNotifiche(membro.getId(), messaggio);
-
-        // Invia email
-        SimpleMailMessage email = new SimpleMailMessage();
-        email.setTo(membro.getEmail());
-        email.setSubject("Notifiche Assenze UNISP");
-        email.setText(messaggio);
-        mailSender.send(email);
-    }
-
-    public void inviaNotificheDistribuzione(Membri membro, String dettagliDistribuzione) {
-        String messaggio = "Promemoria: " + dettagliDistribuzione;
-
-        // Salva notifica nel database
-        creaNotifiche(membro.getId(), messaggio);
-
-        SimpleMailMessage email = new SimpleMailMessage();
-        email.setTo(membro.getEmail());
-        email.setSubject("Promemoria Distribuzione UNISP");
-        email.setText(messaggio);
-        mailSender.send(email);
-    }
-    public List<Notifiche> getNotificheMembro(Long membroId) {
-        return notificaRepository.findByMembroIdAndIsDeletedFalseOrderByDataInvioDesc(membroId);
-    }
     public List<Notifiche> getNotificheNonLette(Long membroId) {
-        return notificaRepository.findUnreadByMembro(membroId);
+        try {
+            return notificaRepository.findUnreadByMembro(membroId);
+        } catch (Exception e) {
+            throw new RuntimeException("Errore nel recupero delle notifiche non lette per il membro con ID: " + membroId, e);
+        }
     }
+
     public Notifiche segnaComeLetta(Long id) {
-        Notifiche notifica = notificaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Notifiche non trovata con ID: " + id));
-        notifica.setLetto(true); // Imposta il campo 'letto' su true
-        return notificaRepository.save(notifica); // Salva la notifica aggiornata
+        try {
+            Notifiche notifica = notificaRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Notifica non trovata con ID: " + id));
+            notifica.setLetto(true);
+            return notificaRepository.save(notifica);
+        } catch (Exception e) {
+            throw new RuntimeException("Errore nel segnare la notifica come letta con ID: " + id, e);
+        }
     }
+
     public void eliminaNotifiche(Long id) {
-        Notifiche notifica = notificaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Notifiche non trovata con ID: " + id));
-        notifica.setDeleted(true); // Imposta il flag 'isDeleted' su true
-        notificaRepository.save(notifica); // Salva la notifica aggiornata
+        try {
+            Notifiche notifica = notificaRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Notifica non trovata con ID: " + id));
+            notifica.setDeleted(true);
+            notificaRepository.save(notifica);
+        } catch (Exception e) {
+            throw new RuntimeException("Errore nell'eliminazione della notifica con ID: " + id, e);
+        }
     }
 
-
+    public void creaNotifiche(Long membroId, String messaggio) {
+        try {
+            Membri membro = membriRepository.findById(membroId)
+                    .orElseThrow(() -> new RuntimeException("Membro non trovato con ID: " + membroId));
+            Notifiche notifica = new Notifiche(membro, messaggio, false);
+            notificaRepository.save(notifica);
+        } catch (Exception e) {
+            throw new RuntimeException("Errore nella creazione della notifica", e);
+        }
+    }
 }

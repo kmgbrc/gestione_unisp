@@ -15,4 +15,6 @@ public interface PartecipazioniRepository extends JpaRepository<Partecipazioni, 
     List<Partecipazioni> findByIsDeletedFalse();
 
     Partecipazioni findByIdAndIsDeletedFalse(Long id);
+
+    long countByMembroIdAndPresenteFalseAndIsDeletedFalse(Long membroId);
 }

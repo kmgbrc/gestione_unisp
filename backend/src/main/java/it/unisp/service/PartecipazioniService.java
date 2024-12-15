@@ -20,6 +20,7 @@ public class PartecipazioniService {
     private final NotificheService notificaService;
     private final MembriService membriService;
     private final AttivitaService attivitaService;
+    private final PrenotazioneService prenotazioneService;
 
     public List<Partecipazioni> getAllPartecipazioni() {
         return partecipazioniRepository.findByIsDeletedFalse();
@@ -35,7 +36,7 @@ public class PartecipazioniService {
 
     @Transactional
     public Partecipazioni registraPartecipazione(Long membroId, Long attivitaId, Boolean presente, Long delegatoId) {
-        // Verifica limiti assenze
+        /*// Verifica limiti assenze
         long assenzeCount = contaAssenze(membroId);
         if (assenzeCount > 5) {
             throw new LimitReachedException("Limite massimo di assenze raggiunto");
@@ -47,27 +48,30 @@ public class PartecipazioniService {
             if (delegheCount >= 3) {
                 throw new LimitReachedException("Limite massimo di deleghe raggiunto");
             }
-        }
+        }*/
 
         // Crea una nuova partecipazione
         Partecipazioni partecipazione = new Partecipazioni();
         partecipazione.setMembro(membriService.getMembroById(membroId)); // Assumendo che tu abbia un modo per ottenere l'oggetto Membri
         partecipazione.setAttivita(attivitaService.getAttivitaById(attivitaId)); // Assumendo che tu abbia un modo per ottenere l'oggetto Attivita
         partecipazione.setPresente(presente);
+        if (presente) partecipazione.setStato("presente");
+        else if (delegatoId != null) partecipazione.setStato("delegato");
+        else partecipazione.setStato("assente");
         partecipazione.setDelegato(membriService.getMembroById(delegatoId));
         partecipazione.setDataCreazione(LocalDateTime.now());
-        partecipazione.setDataPartecipazione(LocalDateTime.now());
+        partecipazione.setDataPartecipazione(prenotazioneService.getData(membroId));
 
         // Salva la partecipazione
         Partecipazioni saved = partecipazioniRepository.save(partecipazione);
 
-        // Invia notifiche per assenze
+        /*// Invia notifiche per assenze
         if (!partecipazione.isPresente()) {
             long nuoveAssenze = contaAssenze(partecipazione.getMembro().getId());
             if (nuoveAssenze == 3 || nuoveAssenze == 4 || nuoveAssenze == 5) {
                 notificaService.inviaNotificheAssenze(partecipazione.getMembro(), nuoveAssenze);
             }
-        }
+        }*/
 
         return saved;
     }
@@ -84,6 +88,9 @@ public class PartecipazioniService {
                 .count();
     }
 
+    public long countPartecipazioniNonPresenti(Long membroId) {
+        return partecipazioniRepository.countByMembroIdAndPresenteFalseAndIsDeletedFalse(membroId);
+    }
 
     public Partecipazioni getPartecipazioniById(Long id) {
         return partecipazioniRepository.findByIdAndIsDeletedFalse(id);

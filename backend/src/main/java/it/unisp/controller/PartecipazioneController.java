@@ -2,9 +2,9 @@ package it.unisp.controller;
 
 import it.unisp.model.Partecipazioni;
 import it.unisp.service.PartecipazioniService;
+import it.unisp.service.PrenotazioneService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -29,7 +29,7 @@ public class PartecipazioneController {
     public ResponseEntity<Partecipazioni> registraPartecipazione(
             @RequestParam Long membroId,
             @RequestParam Long attivitaId,
-            @RequestParam Long delegatoId,
+            @RequestParam(required = false) Long delegatoId,
             @RequestParam boolean presente) {
         return ResponseEntity.ok(partecipazioniService.registraPartecipazione(membroId, attivitaId, presente, delegatoId));
     }
@@ -54,7 +54,6 @@ public class PartecipazioneController {
     }
 
     @GetMapping("/attivita/{attivitaId}")
-    //@PreAuthorize("hasRole('STAFF')")
     @Operation(summary = "Recupera le partecipazioni di un'attività", description = "Restituisce una lista delle partecipazioni associate a un'attività specificata.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Lista delle partecipazioni recuperata con successo"),

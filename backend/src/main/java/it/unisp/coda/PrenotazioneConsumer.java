@@ -2,6 +2,7 @@ package it.unisp.coda;
 
 import it.unisp.dto.request.PrenotazioneRequest;
 import it.unisp.service.PrenotazioneService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +17,15 @@ public class PrenotazioneConsumer {
 
     @RabbitListener(queues = QueueConfig.QUEUE_NAME)
     public void riceviPrenotazione(PrenotazioneRequest request) {
-        // Logica per gestire la prenotazione
+        System.out.println("Ricevuta prenotazione: " + request);
         try {
-            prenotazioneService.prenotaNumero(request.getMembroId(), request.getAttivitaId());
+            prenotazioneService.prenotaNumero(request.getMembroId(), request.getAttivitaId(), request.getDelegatoId());
+        } catch (EntityNotFoundException e) {
+            System.err.println("Errore: " + e.getMessage());
+            // Potresti anche voler inviare un messaggio di errore a un'altra coda o loggarlo
         } catch (Exception e) {
-            // Gestione degli errori (es. log, retry, ecc.)
-            System.err.println("Errore nella prenotazione: " + e.getMessage());
+            System.err.println("Errore generale nella prenotazione: " + e.getMessage());
         }
     }
+
 }

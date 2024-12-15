@@ -1,5 +1,10 @@
 package it.unisp.auth;
 
+import it.unisp.model.CategoriaMembro;
+import it.unisp.model.StatoMembro;
+import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -8,27 +13,46 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegisterRequest {
 
-    @NotBlank(message = "Il nome è obbligatorio")
+    @NotBlank(message = "Nome è obbligatorio")
     private String nome;
 
-    @NotBlank(message = "Il cognome è obbligatorio")
+    @NotBlank(message = "Cognome è obbligatorio")
     private String cognome;
 
-    @NotBlank(message = "L'email è obbligatoria")
-    @Email(message = "Formato email non valido")
+    @NotBlank(message = "Email è obbligatoria")
+    @Email(message = "Email non valida")
     private String email;
 
-    @NotBlank(message = "La password è obbligatoria")
-    @Size(min = 8, message = "La password deve essere di almeno 8 caratteri")
     private String password;
 
-    @NotBlank(message = "Il codice fiscale è obbligatoria")
-    @Email(message = "Formato codice fiscale non valido")
+    private String telefono;
+
+    @Enumerated(EnumType.STRING)
+    private CategoriaMembro categoria;
+
+    @Enumerated(EnumType.STRING)
+    private StatoMembro stato;
+
+    @NotBlank(message = "Codice Fiscale è obbligatorio")
     private String codiceFiscale;
+
+    private boolean permessoSoggiorno;
+
+    private boolean passaporto;
+
+    private boolean certificatoStudente;
+
+    private boolean dichiarazioneIsee;
+
+    private LocalDate dataCreazione;
+
+    private LocalDate dataUltimoRinnovo;
 }

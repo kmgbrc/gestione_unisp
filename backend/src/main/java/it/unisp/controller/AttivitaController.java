@@ -5,7 +5,6 @@ import it.unisp.service.AttivitaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -67,7 +66,6 @@ public class AttivitaController {
             @ApiResponse(responseCode = "500", description = "Errore interno del server")
     })
     @PostMapping
-    //@PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Attivita> createAttivita(@RequestBody Attivita attivita) {
         return ResponseEntity.ok(attivitaService.createAttivita(attivita));
     }
@@ -80,7 +78,6 @@ public class AttivitaController {
             @ApiResponse(responseCode = "500", description = "Errore interno del server")
     })
     @PutMapping("/{id}")
-    //@PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Attivita> updateAttivita(@PathVariable Long id, @RequestBody Attivita attivita) {
         return ResponseEntity.ok(attivitaService.updateAttivita(id, attivita));
     }
@@ -93,7 +90,6 @@ public class AttivitaController {
             @ApiResponse(responseCode = "500", description = "Errore interno del server")
     })
     @DeleteMapping("/{id}")
-    //@PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteAttivita(@PathVariable Long id) {
         attivitaService.deleteAttivita(id);
         return ResponseEntity.ok().build();

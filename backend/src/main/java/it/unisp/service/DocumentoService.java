@@ -2,6 +2,7 @@ package it.unisp.service;
 
 import it.unisp.exception.MissingDocumentException;
 import it.unisp.model.Documenti;
+import it.unisp.model.Membri;
 import it.unisp.repository.DocumentiRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DocumentoService {
     private final DocumentiRepository documentiRepository;
+    private final MembriService membriService;
     private static final String UPLOAD_DIR = "uploads/documenti/";
 
     @Transactional
@@ -29,10 +31,12 @@ public class DocumentoService {
         Files.write(filePath, file.getBytes());
 
         Documenti documento = Documenti.builder()
+                .membro(membriService.getMembroById(membroId))
                 .tipo(tipo)
                 .filePath(fileName)
                 .stato("pendente")
                 .dataCaricamento(LocalDateTime.now())
+                .note("")
                 .build();
 
         return documentiRepository.save(documento);

@@ -7,7 +7,9 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import org.springframework.stereotype.Component;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -15,16 +17,22 @@ import java.nio.file.Paths;
 public class QRCodeGenerator {
     private static final String QR_CODE_PATH = "qrcodes/";
 
-    public String generateQRCode(String data) {
+    public byte[] generateQRCode(String data) {
         try {
+            // Controlla l'esistenza della directory e creala se non esiste
+            Path directory = Paths.get(QR_CODE_PATH);
+            if (!Files.exists(directory)) {
+                Files.createDirectories(directory);
+            }
+
             QRCodeWriter qrCodeWriter = new QRCodeWriter();
             BitMatrix bitMatrix = qrCodeWriter.encode(data, BarcodeFormat.QR_CODE, 200, 200);
 
-            String fileName = String.format("%s.png", System.currentTimeMillis());
-            Path path = Paths.get(QR_CODE_PATH + fileName);
-            MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
+            // Usa un ByteArrayOutputStream per salvare l'immagine in memoria
+            ByteArrayOutputStream pngOutputStream = new ByteArrayOutputStream();
+            MatrixToImageWriter.writeToStream(bitMatrix, "PNG", pngOutputStream);
 
-            return fileName;
+            return pngOutputStream.toByteArray(); // Restituisce i byte dell'immagine
         } catch (WriterException | IOException e) {
             throw new RuntimeException("Errore nella generazione del QR Code", e);
         }

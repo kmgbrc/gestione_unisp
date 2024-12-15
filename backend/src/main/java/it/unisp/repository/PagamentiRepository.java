@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -17,4 +18,8 @@ public interface PagamentiRepository extends JpaRepository<Pagamenti, Long> {
 
     @Query("SELECT CASE WHEN COUNT(p) > 0 THEN TRUE ELSE FALSE END FROM Pagamenti p WHERE p.membro.id = :membroId AND p.tipoPagamento = :tipoPagamento AND YEAR(p.dataPagamento) = :anno")
     boolean existsByMembroIdAndTipoAndAnno(@Param("membroId") Long membroId, @Param("tipoPagamento") String tipoPagamento, @Param("anno") int anno);
+
+    List<Pagamenti> findByIsDeletedFalse();
+
+    List<Pagamenti> findByDataPagamentoBeforeAndIsDeletedFalse(LocalDateTime data);
 }

@@ -5,7 +5,6 @@ import it.unisp.service.MembriService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -21,7 +20,6 @@ public class MembriController {
     private final MembriService membriService;
 
     @GetMapping
-    //@PreAuthorize("hasRole('staff')")
     @Operation(summary = "Recupera tutti i membri", description = "Restituisce una lista di tutti i membri registrati.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Lista dei membri recuperata con successo"),
@@ -32,7 +30,6 @@ public class MembriController {
     }
 
     @GetMapping("/{id}")
-    //@PreAuthorize("hasRole('staff')")
     @Operation(summary = "Recupera un membro per ID")
     @Parameter(name = "id", description = "ID del membro da recuperare", required = true)
     @ApiResponses(value = {
@@ -44,7 +41,6 @@ public class MembriController {
     }
 
     @PostMapping
-    //@PreAuthorize("hasRole('staff')")
     @Operation(summary = "Crea un nuovo membro", description = "Registra un nuovo membro nel sistema.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Membro creato con successo"),

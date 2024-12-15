@@ -12,7 +12,7 @@ public class Notifiche {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "membro_id", nullable = false)
     private Membri membro;
 
@@ -35,4 +35,7 @@ public class Notifiche {
         this.letto = letto;
     }
 
+    public Notifiche() {
+
+    }
 }

@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface SessioneRepository extends JpaRepository<Sessione, Long> {
-    Optional<Sessione> findByToken(String token);
+    Sessione findByToken(String token);
     void deleteByDataScadenzaBefore(LocalDateTime date);
     Optional<Sessione> findByMembroIdAndDataScadenzaAfter(Long membroId, LocalDateTime now);
 }

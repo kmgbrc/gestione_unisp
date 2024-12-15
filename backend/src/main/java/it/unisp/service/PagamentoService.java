@@ -2,6 +2,7 @@ package it.unisp.service;
 
 import it.unisp.model.Membri;
 import it.unisp.model.Pagamenti;
+import it.unisp.model.StatoMembro;
 import it.unisp.repository.PagamentiRepository;
 import it.unisp.util.EmailSender;
 import it.unisp.util.PDFGenerator;
@@ -20,6 +21,34 @@ public class PagamentoService {
     private final PDFGenerator pdfGenerator;
     private final EmailSender emailSender;
 
+    public List<Pagamenti> getAllPagamentiNonCancellati() {
+        return pagamentiRepository.findByIsDeletedFalse();
+    }
+
+    public List<Pagamenti> getAllPagamenti() {
+        return pagamentiRepository.findAll();
+    }
+
+    @Transactional
+    public void cancellaPagamentiPassati() {
+        // Ottieni la data e ora attuale
+        LocalDateTime now = LocalDateTime.now();
+
+        // Estrai l'anno corrente
+        int currentYear = now.getYear();
+
+        // Trova tutti i pagamenti con dataPagamento in anni precedenti e non cancellati
+        List<Pagamenti> pagamentiPassati = pagamentiRepository.findByDataPagamentoBeforeAndIsDeletedFalse(now);
+
+        for (Pagamenti pagamento : pagamentiPassati) {
+            if (pagamento.getDataPagamento().getYear() < currentYear) {
+                pagamento.setDeleted(true);
+                pagamentiRepository.save(pagamento);
+            }
+        }
+    }
+
+
     @Transactional
     public Pagamenti processaPagamentoIscrizione(Membri membro, String transazioneId) {
         Pagamenti pagamento = new Pagamenti();
@@ -30,15 +59,30 @@ public class PagamentoService {
         pagamento.setTransazioneId(transazioneId);
 
         Pagamenti saved = pagamentiRepository.save(pagamento);
-        
+
+        membro.setStato(StatoMembro.valueOf("attivo"));
+
         // Genera ricevuta PDF
         byte[] ricevutaPdf = pdfGenerator.generaRicevutaPagamento(saved);
-        
+
+        // Salva la ricevuta nella cartella documenti/ricevute/
+        pdfGenerator.salvaDocumentoInCartella(saved.getTransazioneId(), ricevutaPdf, "ricevuta");
+
         // Invia email con ricevuta
-        emailSender.inviaRicevutaPagamento(membro.getEmail(), ricevutaPdf);
-        
+        String oggettoEmail = "Ricevuta di Pagamento Iscrizione";
+        String contenutoEmail = "Gentile " + membro.getNome() + ",\n\nIn allegato trovi la ricevuta del tuo pagamento di iscrizione.";
+
+        emailSender.inviaEmailConAllegato(
+                membro.getEmail(),
+                oggettoEmail,
+                contenutoEmail,
+                ricevutaPdf, // I byte della ricevuta PDF
+                "ricevuta.pdf" // Nome dell'allegato
+        );
+
         return saved;
     }
+
 
     @Transactional
     public Pagamenti processaDonazione(Membri membro, BigDecimal importo, String transazioneId) {
