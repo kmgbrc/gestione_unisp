@@ -6,13 +6,18 @@ import java.time.format.DateTimeFormatter;
 public class DateUtils {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+    private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
 
-    public static String formatDate(LocalDate date) {
+    public static String formatDate(LocalDateTime date) {
         return date != null ? date.format(DATE_FORMATTER) : "";
     }
 
     public static String formatDateTime(LocalDateTime dateTime) {
         return dateTime != null ? dateTime.format(DATE_TIME_FORMATTER) : "";
+    }
+
+    public static String formatTime(LocalDateTime dateTime) {
+        return dateTime != null ? dateTime.format(TIME_FORMATTER) : "";
     }
 
     public static boolean isScaduto(LocalDateTime dataScadenza) {

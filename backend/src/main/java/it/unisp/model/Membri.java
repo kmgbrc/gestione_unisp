@@ -1,5 +1,7 @@
 package it.unisp.model;
 
+import it.unisp.enums.CategoriaMembro;
+import it.unisp.enums.StatoMembro;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,12 +28,12 @@ public class Membri implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     @NotBlank(message = "Nome è obbligatorio")
+    @Column(nullable = false)
     private String nome;
 
-    @Column(nullable = false)
     @NotBlank(message = "Cognome è obbligatorio")
+    @Column(nullable = false)
     private String cognome;
 
     @NotBlank(message = "Email è obbligatoria")
@@ -47,11 +49,11 @@ public class Membri implements UserDetails {
     @Enumerated(EnumType.STRING)
     private StatoMembro stato;
 
-    @Column(name = "codice_fiscale", nullable = false)
     @NotBlank(message = "Codice Fiscale è obbligatorio")
+    @Column(name = "codice_fiscale", nullable = false)
     private String codiceFiscale;
 
-    @Column(name = "permesso_soggiorno")
+    @Column(name = "permesso_soggiorno", nullable = false)
     private boolean permessoSoggiorno;
 
     private boolean passaporto;
@@ -62,15 +64,16 @@ public class Membri implements UserDetails {
     @Column(name = "dichiarazione_isee")
     private boolean dichiarazioneIsee;
 
-    @Column(name = "data_creazione")
-    private LocalDate dataCreazione;
+    @Column(name="data_creazione", nullable=false)
+    private LocalDate dataCreazione=LocalDate.now();
 
     @Column(name = "data_ultimo_rinnovo")
     private LocalDate dataUltimoRinnovo;
 
-    @Column(name = "is_deleted")
-    private boolean isDeleted;
+    @Column(name = "is_deleted", nullable = false)
+    private boolean isDeleted = false;
 
+    @NotBlank(message = "Password è obbligatoria")
     @Column(nullable = false)
     private String password;
 

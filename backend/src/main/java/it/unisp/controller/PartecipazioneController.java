@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -30,8 +31,9 @@ public class PartecipazioneController {
             @RequestParam Long membroId,
             @RequestParam Long attivitaId,
             @RequestParam(required = false) Long delegatoId,
-            @RequestParam boolean presente) {
-        return ResponseEntity.ok(partecipazioniService.registraPartecipazione(membroId, attivitaId, presente, delegatoId));
+            @RequestParam boolean presente,
+            @RequestParam LocalDateTime data) {
+        return ResponseEntity.ok(partecipazioniService.registraPartecipazione(membroId, attivitaId, presente, delegatoId, data));
     }
 
     @GetMapping("/membro/{membroId}")

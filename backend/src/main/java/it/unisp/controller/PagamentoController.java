@@ -3,6 +3,7 @@ package it.unisp.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import it.unisp.enums.TipoPagamento;
 import it.unisp.model.Pagamenti;
 import it.unisp.service.MembriService;
 import it.unisp.service.PagamentoService;
@@ -57,13 +58,14 @@ public class PagamentoController {
     })
     public ResponseEntity<Pagamenti> processaPagamentoIscrizione(
             @RequestParam Long membroId,
-            @RequestParam String transazioneId) {
-        return ResponseEntity.ok(pagamentoService.processaPagamentoIscrizione(
-                membriService.findByMembroIdAndIsDeletedFalse(membroId),
-                transazioneId
+            @RequestParam BigDecimal importo,
+            @RequestParam String transazioneId,
+            @RequestParam TipoPagamento tipo) {
+        return ResponseEntity.ok(pagamentoService.processaPagamento(
+                membriService.findByMembroIdAndIsDeletedFalse(membroId), importo, transazioneId, tipo
         ));
     }
-
+/*
     @PostMapping("/donazione")
     @Operation(summary = "Processa donazione", description = "Elabora un pagamento di donazione per un membro specificato.")
     @ApiResponses(value = {
@@ -80,7 +82,7 @@ public class PagamentoController {
                 importo,
                 transazioneId
         ));
-    }
+    }*/
 
     @GetMapping("/membro/{membroId}")
     @Operation(summary = "Recupera pagamenti di un membro", description = "Restituisce una lista di pagamenti effettuati da un membro specificato.")

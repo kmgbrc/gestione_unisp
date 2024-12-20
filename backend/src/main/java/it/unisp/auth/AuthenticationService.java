@@ -1,9 +1,7 @@
 package it.unisp.auth;
 
-import it.unisp.model.CategoriaMembro;
 import it.unisp.model.Membri;
 import it.unisp.model.Sessione;
-import it.unisp.model.StatoMembro;
 import it.unisp.repository.MembriRepository;
 import it.unisp.repository.SessioneRepository;
 import it.unisp.security.JwtService;
@@ -17,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
@@ -34,6 +31,17 @@ public class AuthenticationService {
 
     @Value("${application.security.jwt.expiration}")
     private long jwtExpiration;
+
+    public Membri verificaSessioneAttiva(String token) {
+        // Trova la sessione nel database usando il token
+        Sessione sessione = sessioneRepository.findByToken(token);
+        if (sessione != null && sessione.getDataScadenza().isAfter(LocalDateTime.now())) {
+            // Se la sessione esiste e non è scaduta, restituisci il membro associato
+            return sessione.getMembro();
+        }
+        return null; // Nessuna sessione attiva
+    }
+
 
     @Transactional
     public AuthenticationResponse register(RegisterRequest request) {

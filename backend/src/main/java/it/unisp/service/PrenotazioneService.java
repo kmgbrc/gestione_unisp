@@ -2,13 +2,17 @@ package it.unisp.service;
 
 import it.unisp.coda.PrenotazioneProducer;
 import it.unisp.dto.request.PrenotazioneRequest;
+import it.unisp.enums.StatoPrenotazione;
+import it.unisp.exception.LimitReachedException;
 import it.unisp.model.Attivita;
 import it.unisp.model.Membri;
 import it.unisp.model.Prenotazioni;
 import it.unisp.repository.AttivitaRepository;
 import it.unisp.repository.MembriRepository;
 import it.unisp.repository.PrenotazioniRepository;
+import it.unisp.util.DateUtils;
 import it.unisp.util.EmailSender;
+import it.unisp.util.PDFGenerator;
 import it.unisp.util.QRCodeGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,33 +27,60 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PrenotazioneService {
     private final PrenotazioniRepository prenotazioniRepository;
-    private final MembriRepository membriRepository;
-    private final AttivitaRepository attivitaRepository;
+    private final MembriService membriService;
+    private final AttivitaService attivitaService;
+    private final PartecipazioniService partecipazioniService;
     private final QRCodeGenerator qrCodeGenerator;
     private final PrenotazioneProducer prenotazioneProducer;
     private final EmailSender emailSender;
 
     public void processaPrenotazione(Long membroId, Long attivitaId, Long delegatoId) {
+
+        // Controlla se esiste già una prenotazione per il membro per l'attività
+        boolean prenotazioneEsistente = prenotazioniRepository
+                .findByMembroIdAndAttivitaIdAndIsDeletedFalse(membroId, attivitaId)
+                .isPresent();
+        if (prenotazioneEsistente) {
+            throw new IllegalStateException("Hai già effettuato una prenotazione per questa attività");
+        }
+
+        // Verifica limiti assenze
+        long assenzeCount = contaAssenze(membroId);
+        if (assenzeCount > 5) {
+            throw new LimitReachedException("Limite massimo di assenze raggiunto");
+        }
+
+        // Verifica limiti deleghe
+        if (delegatoId != null) {
+            long delegheCount = contaDeleghe(membroId);
+            if (delegheCount >= 3) {
+                throw new LimitReachedException("Limite massimo di deleghe raggiunto");
+            }
+        }
+
         PrenotazioneRequest request = new PrenotazioneRequest(membroId, attivitaId, delegatoId);
         System.out.println("Invio della prenotazione: " + request);
         prenotazioneProducer.inviaPrenotazione(request);
     }
 
     @Transactional
-    public Prenotazioni prenotaNumero(Long membroId, Long attivitaId, Long delegatoId) {
-        // Recupera il membro e l'attività
-        Membri membro = membriRepository.findById(membroId)
-                .orElseThrow(() -> new RuntimeException("Membro non trovato con ID: " + membroId));
-
+    public Prenotazioni prenotaNumero(Long membroId, Long attivitaId, Long delegatoId) throws Exception {
+        // Recupera il membro
+        Membri membro = membriService.findByMembroIdAndIsDeletedFalse(membroId);
+        if (membro == null) {
+            throw new RuntimeException("Membro non trovato con ID: " + membroId);
+        }
         // Recupera l'attività
-        Attivita attivita = attivitaRepository.findById(attivitaId)
-                .orElseThrow(() -> new RuntimeException("Attività non trovata con ID: " + attivitaId));
+        Attivita attivita = attivitaService.getAttivitaById(attivitaId);
+                if(attivita == null) throw new RuntimeException("Attività non trovata con ID: " + attivitaId);
 
         // Recupera il delegato solo se `delegatoId` non è null
         Membri delegato = null;
         if (delegatoId != null) {
-            delegato = membriRepository.findById(delegatoId)
-                    .orElseThrow(() -> new RuntimeException("Delegato non trovato con ID: " + delegatoId));
+            delegato = membriService.findByMembroIdAndIsDeletedFalse(delegatoId);
+            if (delegato == null) {
+                throw new RuntimeException("Delegato non trovato con ID: " + delegatoId);
+            }
         }
 
         // Genera numero progressivo
@@ -60,14 +91,14 @@ public class PrenotazioneService {
         // Crea una nuova prenotazione
         Prenotazioni prenotazione = new Prenotazioni();
         prenotazione.setNumero(numeroPrenotazione);
-        prenotazione.setStato("attiva");
+        prenotazione.setStato(StatoPrenotazione.ATTIVA);
         prenotazione.setOraPrenotazione(LocalDateTime.now());
         prenotazione.setMembro(membro);
         prenotazione.setAttivita(attivita);
         prenotazione.setDelegato(delegato); // Può essere null
 
         // Genera QR Code
-        String qrCodeData = String.format("P-%d-M-%d-A-%d",
+        String qrCodeData = String.format("PMA-%d-%d-%d",
                 numeroPrenotazione,
                 membro.getId(),
                 attivita.getId());
@@ -75,16 +106,33 @@ public class PrenotazioneService {
         prenotazione.setQrCode(qrCodeData);
 
         // Invia l'email con il QR Code allegato
-        String oggettoEmail = "Il tuo QR Code di Prenotazione";
-        String contenutoEmail = "In allegato trovi il tuo QR Code per la prenotazione.";
+        String oggetto = "Il tuo QR Code di Prenotazione";
+        String messaggio = "In allegato trovi il tuo QR Code per la prenotazione.";
+        PDFGenerator pdfGenerator = new PDFGenerator();
+        byte[] qrCodeFile = pdfGenerator.generaQrCodeFile(prenotazione, qrCodeBytes);
 
-        emailSender.inviaEmailConAllegato(
+        emailSender.inviaEmailGenerico(
                 membro.getEmail(),
-                oggettoEmail,
-                contenutoEmail,
-                qrCodeBytes,
-                "qrcode.png" // Nome dell'allegato
+                membro.getNome(),
+                oggetto,
+                messaggio,
+                qrCodeFile,
+                "prenotazione_" + prenotazione.getQrCode() + ".pdf" // Nome dell'allegato
         );
+
+        if (delegato != null){
+            oggetto = "Delegato";
+            messaggio = "In allegato trovi il QR Code per la prenotazione di " + membro.getNome();
+
+            emailSender.inviaEmailGenerico(
+                    delegato.getEmail(),
+                    delegato.getNome(),
+                    oggetto,
+                    messaggio,
+                    qrCodeFile,
+                    "prenotazione_" + prenotazione.getQrCode() + ".pdf" // Nome dell'allegato
+            );
+        }
 
         return prenotazioniRepository.save(prenotazione);
     }
@@ -92,21 +140,16 @@ public class PrenotazioneService {
     @Transactional
     public Prenotazioni validaPrenotazione(String qrCode) {
         // Ottieni tutte le prenotazioni
-        List<Prenotazioni> prenotazioni = prenotazioniRepository.findAll();
+        List<Prenotazioni> prenotazioni = prenotazioniRepository.findByStato(StatoPrenotazione.ATTIVA);
 
         // Itera sulle prenotazioni e cerca quella con il codice QR corrispondente
         for (Prenotazioni prenotazione : prenotazioni) {
             if (qrCode.equals(prenotazione.getQrCode())) {
-                if ("attiva".equals(prenotazione.getStato())) {
                     // Valida la prenotazione
-                    prenotazione.setStato("validata");
+                    prenotazione.setStato(StatoPrenotazione.VALIDATA);
                     return prenotazioniRepository.save(prenotazione);
-                } else {
-                    throw new RuntimeException("La prenotazione è già stata validata");
-                }
             }
         }
-
         // Se non viene trovata una prenotazione valida, solleva un'eccezione
         throw new RuntimeException("Codice QR non valido o prenotazione non trovata");
     }
@@ -120,7 +163,8 @@ public class PrenotazioneService {
     public void annullaPrenotazione(Long id) {
         prenotazioniRepository.findById(id)
                 .ifPresent(prenotazione -> {
-                    prenotazione.setStato("annullata");
+                    prenotazione.setStato(StatoPrenotazione.ANNULLATA);
+                    prenotazione.setQrCode(null);
                     prenotazioniRepository.save(prenotazione);
                 });
     }
@@ -129,10 +173,22 @@ public class PrenotazioneService {
     public Prenotazioni getPrenotazioneMembroAttivita(Long membroId, Long attivitaId) {
         return prenotazioniRepository.findByMembroIdAndAttivitaIdAndIsDeletedFalse(
                         membroId, attivitaId)
-                .orElseThrow(() -> new RuntimeException("Nessuna prenotazione attiva trovata per il membro con ID: " + membroId + " e attività con ID: " + attivitaId));
+                .orElseThrow(() -> new RuntimeException("Nessuna prenotazione trovata per il membro con ID: " + membroId + " per l'attività con ID: " + attivitaId));
     }
 
     public LocalDateTime getData(Long idMembro) {
         return prenotazioniRepository.getData(idMembro);
+    }
+
+    private long contaAssenze(Long membroId) {
+        return partecipazioniService.getPartecipazioniByMembro(membroId).stream()
+                .filter(p -> !p.isPresente())
+                .count();
+    }
+
+    private long contaDeleghe(Long membroId) {
+        return partecipazioniService.getPartecipazioniByMembro(membroId).stream()
+                .filter(p -> p.getDelegato() != null)
+                .count();
     }
 }

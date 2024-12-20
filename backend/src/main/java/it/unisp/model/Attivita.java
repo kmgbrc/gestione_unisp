@@ -30,8 +30,8 @@ public class Attivita {
     private String luogo;
 
     @Column(name = "num_max_partecipanti")
-    private Integer numMaxPartecipanti;
+    private Integer numMaxPartecipanti = 300;
 
-    @Column(name = "is_deleted")
-    private boolean isDeleted;
+    @Column(name = "is_deleted", nullable = false)
+    private boolean isDeleted = false;
 }

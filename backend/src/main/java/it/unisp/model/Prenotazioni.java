@@ -1,5 +1,6 @@
 package it.unisp.model;
 
+import it.unisp.enums.StatoPrenotazione;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,34 +13,34 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "prenotazioni")
+@Table(name="prenotazioni")
 public class Prenotazioni {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
     private Integer numero;
 
-    @ManyToOne
-    @JoinColumn(name = "membro_id")
+    @ManyToOne(optional=false)
+    @JoinColumn(name="membro_id", nullable=false)
     private Membri membro;
 
-    @ManyToOne
-    @JoinColumn(name = "attivita_id")
+    @ManyToOne(optional=false)
+    @JoinColumn(name="attivita_id", nullable=false)
     private Attivita attivita;
 
-    @ManyToOne
-    @JoinColumn(name = "delegato_id", nullable = true)
+    @ManyToOne(optional=true)
+    @JoinColumn(name="delegato_id")
     private Membri delegato;
 
-    private String stato;
+    @Enumerated(EnumType.STRING)
+    private StatoPrenotazione stato;
 
-    @Column(name = "qr_code")
-    private String qrCode;
+    public String qrCode;
 
-    @Column(name = "ora_prenotazione")
-    private LocalDateTime oraPrenotazione;
+    @Column(name="ora_prenotazione")
+    private LocalDateTime oraPrenotazione=LocalDateTime.now();
 
-    @Column(name = "is_deleted")
-    private boolean isDeleted;
+    @Column(name="is_deleted", nullable=false)
+    private boolean isDeleted=false;
 }

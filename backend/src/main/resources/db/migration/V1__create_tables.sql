@@ -1,111 +1,98 @@
--- Corriger le type des clés primaires et des références
-create table membri
-(
-    id BIGSERIAL PRIMARY KEY,  -- Passage à BIGSERIAL
-    nome                 varchar(50)               not null,
-    cognome              varchar(50)               not null,
-    email                varchar(100)              not null
-        unique,
-    password             varchar(255)              not null,
-    telefono             varchar(20),
-    categoria            varchar(20)
-        constraint membri_categoria_check
-            check ((categoria)::text = ANY
-                   ((ARRAY ['staff'::character varying, 'volontario'::character varying, 'passivo'::character varying])::text[])),
-    stato                varchar(20) default 'attivo'::character varying
-        constraint membri_stato_check
-            check ((stato)::text = ANY
-                   ((ARRAY ['attivo'::character varying, 'inattivo'::character varying, 'escluso'::character varying])::text[])),
-    codice_fiscale       varchar(16)               not null,
-    permesso_soggiorno   boolean     default false not null,
-    passaporto           boolean     default false not null,
-    certificato_studente boolean     default false,
-    dichiarazione_isee   boolean     default false,
-    data_iscrizione      date        default CURRENT_DATE,
-    data_ultimo_rinnovo  date,
-    is_deleted           boolean     default false
+-- Tabella Membri
+CREATE TABLE membri (
+                        id BIGSERIAL PRIMARY KEY,
+                        nome VARCHAR(50) NOT NULL,
+                        cognome VARCHAR(50) NOT NULL,
+                        email VARCHAR(100) NOT NULL UNIQUE,
+                        telefono VARCHAR(20),
+                        categoria VARCHAR(50),
+                        stato VARCHAR(50),
+                        codice_fiscale VARCHAR(16) NOT NULL,
+                        permesso_soggiorno BOOLEAN DEFAULT FALSE,
+                        passaporto BOOLEAN DEFAULT FALSE,
+                        certificato_studente BOOLEAN DEFAULT FALSE,
+                        dichiarazione_isee BOOLEAN DEFAULT FALSE,
+                        data_creazione DATE DEFAULT CURRENT_DATE, -- Valore predefinito
+                        data_ultimo_rinnovo DATE,
+                        is_deleted BOOLEAN DEFAULT FALSE, -- Valore predefinito
+                        password VARCHAR(255) NOT NULL
 );
 
+-- Tabella Attivita
 CREATE TABLE attivita (
-                          id BIGSERIAL PRIMARY KEY,  -- Passage à BIGSERIAL
+                          id BIGSERIAL PRIMARY KEY,
                           titolo VARCHAR(100) NOT NULL,
                           descrizione TEXT,
                           data_ora TIMESTAMP NOT NULL,
                           luogo VARCHAR(100),
-                          num_max_partecipanti INT DEFAULT 300,
-                          is_deleted BOOLEAN DEFAULT false
+                          num_max_partecipanti INT DEFAULT 300, -- Valore predefinito
+                          is_deleted BOOLEAN DEFAULT FALSE -- Valore predefinito
 );
 
-CREATE TABLE partecipazioni (
-                                id BIGSERIAL PRIMARY KEY,  -- Passage à BIGSERIAL
-                                membro_id BIGINT REFERENCES membri(id) ON DELETE CASCADE,  -- BIGINT pour clé étrangère
-                                attivita_id BIGINT REFERENCES attivita(id) ON DELETE CASCADE,  -- BIGINT pour clé étrangère
-                                presente BOOLEAN DEFAULT FALSE,
-                                stato VARCHAR(20),
-                                delegato_id BIGINT REFERENCES membri(id),  -- BIGINT pour clé étrangère
-                                data_partecipazione TIMESTAMP NOT NULL,
-                                data_creazione TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                                is_deleted BOOLEAN DEFAULT false
+-- Tabella Documenti
+CREATE TABLE documenti (
+                           id BIGSERIAL PRIMARY KEY,
+                           membro_id BIGINT REFERENCES membri(id) ON DELETE CASCADE NOT NULL,
+                           tipo VARCHAR(50),
+                           stato VARCHAR(50),
+                           file_path TEXT NOT NULL,
+                           data_caricamento TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Valore predefinito
+                           note TEXT,
+                           is_deleted BOOLEAN DEFAULT FALSE -- Valore predefinito
 );
 
-CREATE TABLE pagamenti (
-                           id BIGSERIAL PRIMARY KEY,  -- Passage à BIGSERIAL
-                           membro_id BIGINT REFERENCES membri(id) ON DELETE CASCADE,  -- BIGINT pour clé étrangère
-                           tipo_pagamento VARCHAR(20) CHECK (tipo_pagamento IN ('iscrizione', 'donazione')),
-                           importo NUMERIC(10, 2) NOT NULL,
-                           data_pagamento TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                           transazione_id VARCHAR(100) UNIQUE NOT NULL,
-                           is_deleted BOOLEAN DEFAULT false
-);
-
+-- Tabella Notifiche
 CREATE TABLE notifiche (
-                           id BIGSERIAL PRIMARY KEY,  -- Passage à BIGSERIAL
-                           membro_id BIGINT REFERENCES membri(id) ON DELETE CASCADE,  -- BIGINT pour clé étrangère
+                           id BIGSERIAL PRIMARY KEY,
+                           membro_id BIGINT REFERENCES membri(id) ON DELETE CASCADE NOT NULL,
                            contenuto TEXT NOT NULL,
-                           data_invio TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                           letto BOOLEAN DEFAULT FALSE,
-                           is_deleted BOOLEAN DEFAULT false
+                           data_invio TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Valore predefinito
+                           letto BOOLEAN DEFAULT FALSE, -- Valore predefinito
+                           is_deleted BOOLEAN DEFAULT FALSE -- Valore predefinito
 );
 
+-- Tabella Pagamenti
+CREATE TABLE pagamenti (
+                           id BIGSERIAL PRIMARY KEY,
+                           membro_id BIGINT REFERENCES membri(id) ON DELETE CASCADE NOT NULL,
+                           tipo_pagamento VARCHAR(50),
+                           importo NUMERIC(10, 2) NOT NULL,
+                           data_pagamento TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Valore predefinito
+                           transazione_id VARCHAR(100) UNIQUE NOT NULL,
+                           is_deleted BOOLEAN DEFAULT FALSE -- Valore predefinito
+);
+
+-- Tabella Partecipazioni
+CREATE TABLE partecipazioni (
+                                id BIGSERIAL PRIMARY KEY,
+                                membro_id BIGINT REFERENCES membri(id) ON DELETE CASCADE NOT NULL,
+                                attivita_id BIGINT REFERENCES attivita(id) ON DELETE CASCADE NOT NULL,
+                                presente BOOLEAN DEFAULT FALSE, -- Valore predefinito
+                                stato VARCHAR(20),
+                                delegato_id BIGINT REFERENCES membri(id),
+                                data_partecipazione TIMESTAMP NOT NULL,
+                                data_creazione TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Valore predefinito
+                                is_deleted BOOLEAN DEFAULT FALSE -- Valore predefinito
+);
+
+-- Tabella Prenotazioni
+CREATE TABLE prenotazioni (
+                              id BIGSERIAL PRIMARY KEY,
+                              numero INT NOT NULL,
+                              membro_id BIGINT REFERENCES membri(id) ON DELETE CASCADE NOT NULL,
+                              attivita_id BIGINT REFERENCES attivita(id) ON DELETE CASCADE NOT NULL,
+                              delegato_id BIGINT REFERENCES membri(id),
+                              stato VARCHAR(50),
+                              qr_code VARCHAR(255),
+                              ora_prenotazione TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Valore predefinito
+                              is_deleted BOOLEAN DEFAULT FALSE -- Valore predefinito
+);
+
+-- Tabella Sessioni
 CREATE TABLE sessioni (
-                          id BIGSERIAL PRIMARY KEY,  -- Passage à BIGSERIAL
-                          membro_id BIGINT REFERENCES membri(id) ON DELETE CASCADE,  -- BIGINT pour clé étrangère
+                          id BIGSERIAL PRIMARY KEY,
+                          membro_id BIGINT REFERENCES membri(id) ON DELETE CASCADE NOT NULL,
                           token VARCHAR(255) NOT NULL,
-                          data_creazione TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                          data_creazione TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Valore predefinito
                           data_scadenza TIMESTAMP
 );
-
-CREATE TABLE documenti (
-                           id BIGSERIAL PRIMARY KEY,  -- Passage à BIGSERIAL
-                           membro_id BIGINT NOT NULL REFERENCES membri (id) ON DELETE CASCADE,  -- BIGINT pour clé étrangère
-                           tipo VARCHAR(50) NOT NULL,
-                           stato VARCHAR(20) DEFAULT 'pendente',
-                           file_path TEXT NOT NULL,
-                           data_caricamento TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                           note TEXT,
-                           is_deleted BOOLEAN DEFAULT FALSE,
-                           CONSTRAINT tipo_documento_check CHECK (tipo IN
-                                                                  ('permesso_soggiorno', 'passaporto', 'certificato_studente', 'isee', 'carta_identita'))
-);
-
-CREATE TABLE prenotazioni (
-                              id BIGSERIAL PRIMARY KEY,  -- Passage à BIGSERIAL
-                              numero INT NOT NULL,
-                              membro_id BIGINT NOT NULL REFERENCES membri(id) ON DELETE CASCADE,  -- BIGINT pour clé étrangère
-                              attivita_id BIGINT NOT NULL REFERENCES attivita(id) ON DELETE CASCADE,  -- BIGINT pour clé étrangère
-                              delegato_id BIGINT REFERENCES membri(id),
-                              stato VARCHAR(20) NOT NULL CHECK (stato IN ('attiva', 'annullata', 'validata')),
-                              qr_code VARCHAR(255) NOT NULL,
-                              ora_prenotazione TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                              is_deleted BOOLEAN DEFAULT FALSE
-);
-
--- Ajouter des index pour les performances
-CREATE INDEX idx_membri_email ON membri(email);
-CREATE INDEX idx_membri_codice_fiscale ON membri(codice_fiscale);
-CREATE INDEX idx_attivita_data_ora ON attivita(data_ora);
-CREATE INDEX idx_partecipazioni_membro_id ON partecipazioni(membro_id);
-CREATE INDEX idx_partecipazioni_attivita_id ON partecipazioni(attivita_id);
-CREATE INDEX idx_pagamenti_membro_id ON pagamenti(membro_id);
-CREATE INDEX idx_documenti_membro_id ON documenti(membro_id);
-CREATE INDEX idx_prenotazioni_attivita_id ON prenotazioni(attivita_id);

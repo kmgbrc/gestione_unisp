@@ -12,35 +12,35 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "partecipazioni")
+@Table(name="partecipazioni")
 public class Partecipazioni {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "membro_id")
+    @ManyToOne(optional=false)
+    @JoinColumn(name="membro_id", nullable=false)
     private Membri membro;
 
-    @ManyToOne
-    @JoinColumn(name = "attivita_id")
+    @ManyToOne(optional=false)
+    @JoinColumn(name="attivita_id", nullable=false)
     private Attivita attivita;
 
     private boolean presente;
 
-    @Column(length = 20)
+    @Column(length=20)
     private String stato;
 
-    @ManyToOne
-    @JoinColumn(name = "delegato_id")
+    @ManyToOne(optional=true)
+    @JoinColumn(name="delegato_id")
     private Membri delegato;
 
-    @Column(name = "data_partecipazione")
-    private LocalDateTime dataPartecipazione;
+    @Column(name="data_partecipazione")
+    private LocalDateTime dataPartecipazione=LocalDateTime.now();
 
-    @Column(name = "data_creazione")
-    private LocalDateTime dataCreazione;
+    @Column(name="data_creazione")
+    private LocalDateTime dataCreazione=LocalDateTime.now();
 
-    @Column(name = "is_deleted")
-    private boolean isDeleted;
+    @Column(name="is_deleted", nullable=false)
+    private boolean isDeleted=false; // Valore predefinito
 }

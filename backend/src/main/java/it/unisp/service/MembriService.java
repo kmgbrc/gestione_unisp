@@ -1,20 +1,21 @@
 package it.unisp.service;
 
-import it.unisp.model.CategoriaMembro;
+import it.unisp.enums.CategoriaMembro;
 import it.unisp.model.Membri;
-import it.unisp.model.StatoMembro;
+import it.unisp.enums.StatoMembro;
 import it.unisp.repository.MembriRepository;
+import it.unisp.util.EmailSender;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 public class MembriService {
     private final MembriRepository membriRepository;
     private final PasswordEncoder passwordEncoder;
+    private  final EmailSender emailSender;
     private final Validator validator;
     private static final Logger logger = LoggerFactory.getLogger(MembriService.class);
 
@@ -52,8 +54,8 @@ public class MembriService {
         logger.info("Password per l'email {} è stata codificata.", membro.getEmail());
 
         // Imposta le date di iscrizione e ultimo rinnovo
-        if(membro.getCategoria()== null) membro.setCategoria(CategoriaMembro.volontario);
-        membro.setStato(StatoMembro.inattivo);
+        if(membro.getCategoria()== null) membro.setCategoria(CategoriaMembro.VOLONTARIO);
+        if(membro.getStato() == null) membro.setStato(StatoMembro.INATTIVO);
         membro.setDataCreazione(LocalDate.now());
         membro.setDataUltimoRinnovo(LocalDate.now());
         logger.info("Data di iscrizione e ultimo rinnovo impostate per il membro: {}", membro.getEmail());
@@ -61,6 +63,37 @@ public class MembriService {
         try {
             Membri savedMembro = membriRepository.save(membro);
             logger.info("Membro registrato con successo: {}", savedMembro.getEmail());
+
+            // Invia notifiche e email a tutti gli admin
+
+            List<Membri> allAdmin = membriRepository.findByCategoria(CategoriaMembro.ADMIN);
+
+            String messaggio = String.format(
+                    "Il membro %s %s è stato creato con ruolo %s.",
+                    savedMembro.getNome(),
+                    savedMembro.getCognome(),
+                    savedMembro.getCategoria()
+            );
+            for (Membri ogniAdmin : allAdmin) {
+                // Crea notifica
+                //notificheService.creaNotifiche(membro.getId(), messaggio);
+
+                // Invia email
+                try {
+
+                    emailSender.inviaEmailGenerico(
+                            ogniAdmin.getEmail(),
+                            ogniAdmin.getNome(),
+                            "AVVISO NUOVO MEMBRO!",
+                            messaggio,
+                            null, // Puoi passare null se non hai allegati
+                            null  // Nome dell'allegato, se non usato
+                    );
+                } catch (Exception e) {
+                    // Gestisci eventuali errori durante l'invio dell'email
+                    logger.error("Errore nell'invio dell'email a {}: {}", ogniAdmin.getEmail(), e.getMessage());
+                }
+            }
             return savedMembro;
         } catch (Exception e) {
             logger.error("Errore durante il salvataggio del membro: {}", e.getMessage());
@@ -74,9 +107,8 @@ public class MembriService {
     public List<Membri> findByIsDeletedFalse() {
         return membriRepository.findByIsDeletedFalse();
     }
-
-    public Membri getMembroById(Long membroId) {
-        return membriRepository.findByIdAndIsDeletedFalse(membroId);
+    public List<Membri> getMembriAttivi() {
+        return membriRepository.findByStatoAndIsDeletedFalse(StatoMembro.ATTIVO);
     }
 
     @Transactional
@@ -98,6 +130,9 @@ public class MembriService {
                 esistente.setDataUltimoRinnovo(membro.getDataUltimoRinnovo());
                 esistente.setPassword(membro.getPassword());
                 esistente.setDeleted(membro.isDeleted());
+
+                //invia notifica
+
                 return membriRepository.save(esistente);
             })
             .orElseThrow(() -> new RuntimeException("Membro non trovato"));
@@ -138,7 +173,7 @@ public class MembriService {
                 .collect(Collectors.toList());
     }
 
-    public Membri findByEmail(String email){
-        return membriRepository.findByEmail(email);
-    };
+    public List<Membri> getMembriAdmin() {
+        return membriRepository.findByCategoria(CategoriaMembro.ADMIN);
+    }
 }

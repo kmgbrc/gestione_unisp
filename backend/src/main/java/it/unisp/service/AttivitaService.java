@@ -1,5 +1,6 @@
 package it.unisp.service;
 
+import it.unisp.enums.StatoMembro;
 import it.unisp.model.Attivita;
 import it.unisp.model.Membri;
 import it.unisp.repository.AttivitaRepository;
@@ -39,30 +40,34 @@ public class AttivitaService {
 
     @Transactional
     public Attivita createAttivita(Attivita attivita) {
-        List<Membri> tuttiIMembri = membriService.getAllMembri();
-        String messaggio = String.format(
-                "Ti informiamo che ci sarà l'attività '%s' che si svolgerà presso '%s' il %s.\n\n" +
-                        "Non mancare!\n\n" +
-                        "Cordiali saluti,\n" +
-                        "Il Team UNISP",
-                attivita.getTitolo(),
-                attivita.getLuogo(),
-                attivita.getDataOra().format(DateTimeFormatter.ofPattern("dd/MMMM/yyyy 'alle' HH:mm"))
-        );
+        List<Membri> tuttiIMembri = membriService.getMembriAttivi();
 
         // Salva la nuova attività
         Attivita newAttivita = attivitaRepository.save(attivita);
 
         // Invia notifiche e email a tutti i membri
+        String messaggio = String.format(
+                "Ti informiamo che ci sarà l'attività '%s' che si svolgerà presso '%s' il %s.\n\n" +
+                        "Non mancare!\n\n" +
+                        "Cordiali saluti,\n" +
+                        "Il Team UNISP",
+                newAttivita.getTitolo(),
+                newAttivita.getLuogo(),
+                newAttivita.getDataOra().format(DateTimeFormatter.ofPattern("dd/MMMM/yyyy 'alle' HH:mm"))
+        );
         for (Membri membro : tuttiIMembri) {
             // Crea notifica
             notificheService.creaNotifiche(membro.getId(), messaggio);
 
             // Invia email
             try {
-                emailSender.inviaEmailConAllegato(
+                emailSender.inviaEmailAttivita(
+                        newAttivita.getTitolo(),
+                        newAttivita.getDescrizione(),
+                        newAttivita.getLuogo(),
+                        newAttivita.getDataOra(),
                         membro.getEmail(),
-                        "Nuova Attività: " + attivita.getTitolo(),
+                        membro.getNome(),
                         messaggio,
                         null, // Puoi passare null se non hai allegati
                         null  // Nome dell'allegato, se non usato
@@ -86,7 +91,7 @@ public class AttivitaService {
                     esistente.setLuogo(attivita.getLuogo());
                     esistente.setNumMaxPartecipanti(attivita.getNumMaxPartecipanti());
 
-                    List<Membri> tuttiIMembri = membriService.getAllMembri();
+                    List<Membri> tuttiIMembri = membriService.getMembriAttivi();
                     String messaggio = String.format(
                             "Ti informiamo che è stato modificato l'attività '%s' che si svolgerà presso '%s' il %s.\n\n" +
                                     "Cordiali saluti,\n" +
@@ -102,9 +107,13 @@ public class AttivitaService {
 
                         // Invia email
                         try {
-                            emailSender.inviaEmailConAllegato(
+                            emailSender.inviaEmailAttivita(
+                                    attivita.getTitolo(),
+                                    attivita.getDescrizione(),
+                                    attivita.getLuogo(),
+                                    attivita.getDataOra(),
                                     membro.getEmail(),
-                                    "Modifica Attività: " + esistente.getTitolo(),
+                                    membro.getNome(),
                                     messaggio,
                                     null, // Puoi passare null se non hai allegati
                                     null  // Nome dell'allegato, se non usato

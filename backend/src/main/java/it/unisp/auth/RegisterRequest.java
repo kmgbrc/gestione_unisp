@@ -1,13 +1,11 @@
 package it.unisp.auth;
 
-import it.unisp.model.CategoriaMembro;
-import it.unisp.model.StatoMembro;
-import jakarta.persistence.Column;
+import it.unisp.enums.CategoriaMembro;
+import it.unisp.enums.StatoMembro;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

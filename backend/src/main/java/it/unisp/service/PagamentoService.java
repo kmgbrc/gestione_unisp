@@ -1,8 +1,9 @@
 package it.unisp.service;
 
+import it.unisp.enums.TipoPagamento;
 import it.unisp.model.Membri;
 import it.unisp.model.Pagamenti;
-import it.unisp.model.StatoMembro;
+import it.unisp.enums.StatoMembro;
 import it.unisp.repository.PagamentiRepository;
 import it.unisp.util.EmailSender;
 import it.unisp.util.PDFGenerator;
@@ -50,33 +51,42 @@ public class PagamentoService {
 
 
     @Transactional
-    public Pagamenti processaPagamentoIscrizione(Membri membro, String transazioneId) {
+    public Pagamenti processaPagamento(Membri membro, BigDecimal importo, String transazioneId, TipoPagamento tipo) {
         Pagamenti pagamento = new Pagamenti();
         pagamento.setMembro(membro);
-        pagamento.setTipoPagamento("iscrizione");
-        pagamento.setImporto(new BigDecimal("5.00"));
+        pagamento.setTipoPagamento(tipo);
+        pagamento.setImporto(importo);
         pagamento.setDataPagamento(LocalDateTime.now());
         pagamento.setTransazioneId(transazioneId);
 
         Pagamenti saved = pagamentiRepository.save(pagamento);
 
-        membro.setStato(StatoMembro.valueOf("attivo"));
+        membro.setStato(StatoMembro.ATTIVO);
 
         // Genera ricevuta PDF
         byte[] ricevutaPdf = pdfGenerator.generaRicevutaPagamento(saved);
 
-        // Salva la ricevuta nella cartella documenti/ricevute/
-        pdfGenerator.salvaDocumentoInCartella(saved.getTransazioneId(), ricevutaPdf, "ricevuta");
-
         // Invia email con ricevuta
-        String oggettoEmail = "Ricevuta di Pagamento Iscrizione";
-        String contenutoEmail = "Gentile " + membro.getNome() + ",\n\nIn allegato trovi la ricevuta del tuo pagamento di iscrizione.";
+        String oggetto;
+        String messaggio;
 
-        emailSender.inviaEmailConAllegato(
+        if(tipo.equals(TipoPagamento.ISCRIZIONE) || tipo.equals(TipoPagamento.RINNOVO)){
+            oggetto = "Ricevuta di Pagamento Iscrizione";
+            messaggio = "In allegato trovi la ricevuta del tuo pagamento di iscrizione.";
+        } else if(tipo.equals(TipoPagamento.DONAZIONE)) {
+            oggetto = "Grazie per la Sua Donnazione";
+            messaggio = "In allegato trova la ricevuta del suo pagamento. Unisp La ringrazzia di coure!.";
+        } else {
+            oggetto = "Ricevuta di Pagamento";
+            messaggio = "In allegato trovi la ricevuta del tuo pagamento.";
+        }
+
+        emailSender.inviaEmailGenerico(
                 membro.getEmail(),
-                oggettoEmail,
-                contenutoEmail,
-                ricevutaPdf, // I byte della ricevuta PDF
+                membro.getNome(),
+                oggetto,
+                messaggio,
+                ricevutaPdf,
                 "ricevuta.pdf" // Nome dell'allegato
         );
 
@@ -84,23 +94,23 @@ public class PagamentoService {
     }
 
 
-    @Transactional
+/*    @Transactional
     public Pagamenti processaDonazione(Membri membro, BigDecimal importo, String transazioneId) {
         Pagamenti pagamento = new Pagamenti();
         pagamento.setMembro(membro);
-        pagamento.setTipoPagamento("donazione");
+        pagamento.setTipoPagamento(TipoPagamento.DONAZIONE);
         pagamento.setImporto(importo);
         pagamento.setDataPagamento(LocalDateTime.now());
         pagamento.setTransazioneId(transazioneId);
         
         return pagamentiRepository.save(pagamento);
-    }
+    }*/
 
     public List<Pagamenti> getPagamentiMembro(Long membroId) {
         return pagamentiRepository.findByMembroIdAndIsDeletedFalseOrderByDataPagamentoDesc(membroId);
     }
 
     public boolean verificaPagamentoIscrizione(Long membroId, int anno) {
-        return pagamentiRepository.existsByMembroIdAndTipoAndAnno(membroId, "iscrizione", anno);
+        return pagamentiRepository.existsByMembroIdAndTipoAndAnno(membroId, TipoPagamento.ISCRIZIONE.name(), anno);
     }
 }

@@ -1,6 +1,5 @@
 package it.unisp.util;
 
-import it.unisp.service.MembriService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -13,31 +12,69 @@ import org.thymeleaf.context.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDateTime;
+
 @Component
 @RequiredArgsConstructor
 public class EmailSender {
     private final JavaMailSender mailSender;
     private final TemplateEngine templateEngine;
-
-    private final MembriService membriService;
     private static final Logger logger = LoggerFactory.getLogger(EmailSender.class);
 
-    public void inviaEmailConAllegato(String destinatario, String oggetto, String contenuto, byte[] allegato, String nomeAllegato) {
+    public void inviaEmailGenerico(String mailDestinatario, String nomeDestinatario, String oggetto,
+                                   String contenuto, byte[] allegato, String nomeAllegato) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+            // Imposta il destinatario e l'oggetto
+            helper.setTo(mailDestinatario);
+            helper.setSubject(oggetto);
+
+            // Imposta il contenuto dell'email
+            Context context = new Context();
+            context.setVariable("contenuto", contenuto);
+            context.setVariable("nomeMembro", nomeDestinatario);
+
+            // Utilizza il template per generare il corpo dell'email
+            String emailContent = templateEngine.process("email-template-generico", context);
+            helper.setText(emailContent, true); // true se stai usando HTML
+
+            // Aggiungi l'allegato se fornito
+            if (allegato != null && nomeAllegato != null) {
+                helper.addAttachment(nomeAllegato, new ByteArrayResource(allegato));
+            }
+
+            // Invia l'email
+            mailSender.send(message);
+            logger.info("Email inviata a: {}", nomeDestinatario);
+        } catch (MessagingException e) {
+            logger.error("Errore nell'invio dell'email a {}: {}", nomeDestinatario, e.getMessage());
+            throw new RuntimeException("Errore nell'invio dell'email", e);
+        }
+    }
+
+    public void inviaEmailAttivita(String titolo, String descrizione, String luogo, LocalDateTime dataOra, String destinatario, String nome, String contenuto, byte[] allegato, String nomeAllegato) {
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
             // Imposta il destinatario e l'oggetto
             helper.setTo(destinatario);
-            helper.setSubject(oggetto);
+            helper.setSubject("Nouva Attivita: " + titolo);
 
             // Imposta il contenuto dell'email
             Context context = new Context();
-            context.setVariable("contenuto", contenuto); // Assicurati di utilizzare questa variabile nel template
-            context.setVariable("nomeMembro", membriService.findByEmail(destinatario).getNome());
+            context.setVariable("contenuto", contenuto);
+            context.setVariable("nomeMembro", nome);
+            context.setVariable("attivitaTitolo", titolo);
+            context.setVariable("attivitaDescrizione", descrizione);
+            context.setVariable("attivitaOra", DateUtils.formatTime(dataOra));
+            context.setVariable("attivitaData", DateUtils.formatDate(dataOra));
+            context.setVariable("attivitaLuogo", luogo);
 
             // Utilizza il template per generare il corpo dell'email
-            String emailContent = templateEngine.process("email-template", context);
+            String emailContent = templateEngine.process("email-template-attivita", context);
             helper.setText(emailContent, true); // true se stai usando HTML
 
             // Aggiungi l'allegato se fornito
@@ -75,22 +112,4 @@ public class EmailSender {
         }
     }
 
-    public void inviaEmailSemplice(String destinatario) {
-        try {
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, false); // false per email senza allegati
-
-            helper.setTo(destinatario);
-            helper.setSubject("Test Email");
-            helper.setText("Questo è un test di invio email semplice.");
-
-            logger.info("Tentativo di invio email a {}", destinatario);
-            mailSender.send(message);
-            logger.info("Email inviata correttamente a: {}", destinatario);
-        } catch (MessagingException e) {
-            logger.error("Errore nell'invio dell'email a {}: {}", destinatario, e.getMessage(), e);
-        } catch (Exception ex) {
-            logger.error("Errore generale nell'invio dell'email: {}", ex.getMessage(), ex);
-        }
-    }
 }

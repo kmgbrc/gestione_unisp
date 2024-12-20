@@ -1,5 +1,6 @@
 package it.unisp.repository;
 
+import it.unisp.enums.StatoPrenotazione;
 import it.unisp.model.Prenotazioni;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -25,4 +26,6 @@ public interface PrenotazioniRepository extends JpaRepository<Prenotazioni, Long
     LocalDateTime getData(@Param("id") Long id);
 
     List<Prenotazioni> findByAttivitaId(Long attivitaId);
+
+    List<Prenotazioni> findByStato(StatoPrenotazione attiva);
 }

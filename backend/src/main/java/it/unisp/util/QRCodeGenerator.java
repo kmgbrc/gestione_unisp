@@ -19,11 +19,11 @@ public class QRCodeGenerator {
 
     public byte[] generateQRCode(String data) {
         try {
-            // Controlla l'esistenza della directory e creala se non esiste
+/*            // Controlla l'esistenza della directory e creala se non esiste
             Path directory = Paths.get(QR_CODE_PATH);
             if (!Files.exists(directory)) {
                 Files.createDirectories(directory);
-            }
+            }*/
 
             QRCodeWriter qrCodeWriter = new QRCodeWriter();
             BitMatrix bitMatrix = qrCodeWriter.encode(data, BarcodeFormat.QR_CODE, 200, 200);

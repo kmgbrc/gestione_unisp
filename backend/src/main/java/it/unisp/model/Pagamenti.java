@@ -1,5 +1,6 @@
 package it.unisp.model;
 
+import it.unisp.enums.TipoPagamento;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,27 +14,28 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "pagamenti")
+@Table(name="pagamenti")
 public class Pagamenti {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "membro_id")
+    @ManyToOne(optional=false)
+    @JoinColumn(name="membro_id", nullable=false)
     private Membri membro;
 
-    @Column(name = "tipo_pagamento")
-    private String tipoPagamento;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_pagamento", nullable = false)
+    private TipoPagamento tipoPagamento;
 
     private BigDecimal importo;
 
-    @Column(name = "data_pagamento")
-    private LocalDateTime dataPagamento;
+    @Column(name="data_pagamento")
+    private LocalDateTime dataPagamento=LocalDateTime.now();
 
-    @Column(name = "transazione_id", unique = true)
+    @Column(name="transazione_id", unique=true)
     private String transazioneId;
 
-    @Column(name = "is_deleted")
-    private boolean isDeleted;
+    @Column(name="is_deleted", nullable=false)
+    private boolean isDeleted=false;
 }
