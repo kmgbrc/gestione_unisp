@@ -105,7 +105,7 @@ public class NotificationTask {
         List<Membri> membri = membriService.getAllMembri(); // Recupera tutti i membri
 
         for (Membri membro : membri) {
-            long numeroAssenze = partecipazioniService.countPartecipazioniNonPresenti(membro.getId());
+            long numeroAssenze = partecipazioniService.contaAssenze(membro.getId());
 
             if (numeroAssenze == 4) {
                 String messaggio = String.format("Attenzione: hai raggiunto %d assenze quest'anno.", numeroAssenze);

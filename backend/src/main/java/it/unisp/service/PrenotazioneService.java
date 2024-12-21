@@ -7,8 +7,6 @@ import it.unisp.exception.LimitReachedException;
 import it.unisp.model.Attivita;
 import it.unisp.model.Membri;
 import it.unisp.model.Prenotazioni;
-import it.unisp.repository.AttivitaRepository;
-import it.unisp.repository.MembriRepository;
 import it.unisp.repository.PrenotazioniRepository;
 import it.unisp.util.DateUtils;
 import it.unisp.util.EmailSender;
@@ -45,14 +43,14 @@ public class PrenotazioneService {
         }
 
         // Verifica limiti assenze
-        long assenzeCount = contaAssenze(membroId);
+        long assenzeCount = partecipazioniService.contaAssenze(membroId);
         if (assenzeCount > 5) {
             throw new LimitReachedException("Limite massimo di assenze raggiunto");
         }
 
         // Verifica limiti deleghe
         if (delegatoId != null) {
-            long delegheCount = contaDeleghe(membroId);
+            long delegheCount = partecipazioniService.contaDeleghe(membroId);
             if (delegheCount >= 3) {
                 throw new LimitReachedException("Limite massimo di deleghe raggiunto");
             }
@@ -176,19 +174,4 @@ public class PrenotazioneService {
                 .orElseThrow(() -> new RuntimeException("Nessuna prenotazione trovata per il membro con ID: " + membroId + " per l'attività con ID: " + attivitaId));
     }
 
-    public LocalDateTime getData(Long idMembro) {
-        return prenotazioniRepository.getData(idMembro);
-    }
-
-    private long contaAssenze(Long membroId) {
-        return partecipazioniService.getPartecipazioniByMembro(membroId).stream()
-                .filter(p -> !p.isPresente())
-                .count();
-    }
-
-    private long contaDeleghe(Long membroId) {
-        return partecipazioniService.getPartecipazioniByMembro(membroId).stream()
-                .filter(p -> p.getDelegato() != null)
-                .count();
-    }
 }

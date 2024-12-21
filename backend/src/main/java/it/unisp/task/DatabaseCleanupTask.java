@@ -25,8 +25,5 @@ public class DatabaseCleanupTask {
         LocalDateTime seiMesiFa = LocalDateTime.now().minusMonths(6);
         notificaRepository.softDeleteOldNotifichetions(seiMesiFa);
 
-        // Soft delete prenotazioni vecchie
-        LocalDateTime unaSettimanaFa = LocalDateTime.now().minusDays(7);
-        prenotazioneRepository.softDeleteOldPrenotazioni(unaSettimanaFa);
     }
 }

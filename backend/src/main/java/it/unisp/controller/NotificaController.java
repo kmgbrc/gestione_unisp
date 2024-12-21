@@ -84,7 +84,7 @@ public class NotificaController {
             @ApiResponse(responseCode = "201", description = "Notifica creata con successo"),
             @ApiResponse(responseCode = "400", description = "Richiesta non valida")
     })
-    public ResponseEntity<Void> creaNotifica(@RequestParam Long membroId, @RequestParam String messaggio) {
+    public ResponseEntity<Void> creaNotifica(@RequestParam Long  membroId, @RequestParam String messaggio) {
         notificaService.creaNotifiche(membroId, messaggio);
         return ResponseEntity.status(201).build();
     }

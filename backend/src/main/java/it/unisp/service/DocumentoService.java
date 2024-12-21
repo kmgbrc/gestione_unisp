@@ -26,6 +26,7 @@ public class DocumentoService {
     private final DocumentiRepository documentiRepository;
     private final MembriService membriService;
     private final EmailSender emailSender;
+    private  final NotificheService notificheService;
     private static final String UPLOAD_DIR = "documenti/uploads/";
 
     @Transactional
@@ -60,6 +61,9 @@ public class DocumentoService {
                 null
         );
 
+        // Crea notifica
+        notificheService.creaNotifiche(savedDocument.getMembro().getId(), messaggio);
+
         // Invia l'email agli admin
         List<Membri> allAdmin = membriService.getMembriAdmin();
         for (Membri ogniAdmin : allAdmin) {
@@ -76,6 +80,9 @@ public class DocumentoService {
                     null,
                     null
             );
+
+            // Crea notifica
+            notificheService.creaNotifiche(ogniAdmin.getId(), messaggio);
         }
         return savedDocument;
     }
@@ -104,6 +111,10 @@ public class DocumentoService {
                             null,
                             null
                     );
+
+                    // Crea notifica
+                    notificheService.creaNotifiche(doc.getMembro().getId(), messaggio);
+
                     return documentiRepository.save(doc);
                 })
                 .orElseThrow(() -> new MissingDocumentException("Documento non trovato"));
@@ -129,6 +140,10 @@ public class DocumentoService {
                             null,
                             null
                     );
+
+                    // Crea notifica
+                    notificheService.creaNotifiche(doc.getMembro().getId(), messaggio);
+
                     return documentiRepository.save(doc);
                 })
                 .orElseThrow(() -> new MissingDocumentException("Documento non trovato"));

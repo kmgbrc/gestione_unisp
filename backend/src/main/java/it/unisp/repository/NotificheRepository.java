@@ -14,8 +14,8 @@ import java.util.List;
 public interface NotificheRepository extends JpaRepository<Notifiche, Long> {
     List<Notifiche> findByMembroIdAndIsDeletedFalseOrderByDataInvioDesc(Long membroId);
     
-    @Query("SELECT n FROM Notifiche n WHERE n.membro.id = :membroId AND n.letto = false AND n.isDeleted = false")
-    List<Notifiche> findUnreadByMembro(@Param("membroId") Long membroId);
+    @Query("SELECT n FROM Notifiche n WHERE n.membroId = :membroId AND n.letto = false AND n.isDeleted = false")
+    List<Notifiche> findUnreadByMembroId(@Param("membroId") Long membroId);
     
     long countByMembroIdAndLettoFalseAndIsDeletedFalse(Long membroId);
     @Modifying

@@ -1,14 +1,10 @@
 package it.unisp.service;
 
-import it.unisp.model.Membri;
 import it.unisp.model.Notifiche;
-import it.unisp.repository.MembriRepository;
 import it.unisp.repository.NotificheRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,8 +14,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class NotificheService {
     private final NotificheRepository notificaRepository;
-    private final MembriRepository membriRepository;
-    private final JavaMailSender mailSender;
     private static final Logger logger = LoggerFactory.getLogger(NotificheService.class);
 
     public List<Notifiche> getNotificheMembro(Long membroId) {
@@ -49,7 +43,7 @@ public class NotificheService {
 
     public List<Notifiche> getNotificheNonLette(Long membroId) {
         try {
-            return notificaRepository.findUnreadByMembro(membroId);
+            return notificaRepository.findUnreadByMembroId(membroId);
         } catch (Exception e) {
             throw new RuntimeException("Errore nel recupero delle notifiche non lette per il membro con ID: " + membroId, e);
         }
@@ -79,9 +73,7 @@ public class NotificheService {
 
     public void creaNotifiche(Long membroId, String messaggio) {
         try {
-            Membri membro = membriRepository.findById(membroId)
-                    .orElseThrow(() -> new RuntimeException("Membro non trovato con ID: " + membroId));
-            Notifiche notifica = new Notifiche(membro, messaggio, false);
+            Notifiche notifica = new Notifiche(membroId, messaggio, false);
             notificaRepository.save(notifica);
         } catch (Exception e) {
             throw new RuntimeException("Errore nella creazione della notifica", e);

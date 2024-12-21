@@ -19,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PagamentoService {
     private final PagamentiRepository pagamentiRepository;
+    private final NotificheService notificheService;
     private final PDFGenerator pdfGenerator;
     private final EmailSender emailSender;
 
@@ -89,6 +90,9 @@ public class PagamentoService {
                 ricevutaPdf,
                 "ricevuta.pdf" // Nome dell'allegato
         );
+
+        // Crea notifica
+        notificheService.creaNotifiche(membro.getId(), messaggio);
 
         return saved;
     }

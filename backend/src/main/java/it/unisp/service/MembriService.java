@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -25,6 +24,7 @@ import java.util.stream.Collectors;
 public class MembriService {
     private final MembriRepository membriRepository;
     private final PasswordEncoder passwordEncoder;
+    private final NotificheService notificheService;
     private  final EmailSender emailSender;
     private final Validator validator;
     private static final Logger logger = LoggerFactory.getLogger(MembriService.class);
@@ -74,11 +74,8 @@ public class MembriService {
                     savedMembro.getCognome(),
                     savedMembro.getCategoria()
             );
+            // Invia email e notifica
             for (Membri ogniAdmin : allAdmin) {
-                // Crea notifica
-                //notificheService.creaNotifiche(membro.getId(), messaggio);
-
-                // Invia email
                 try {
 
                     emailSender.inviaEmailGenerico(
@@ -89,6 +86,8 @@ public class MembriService {
                             null, // Puoi passare null se non hai allegati
                             null  // Nome dell'allegato, se non usato
                     );
+                    // Crea notifica
+                    notificheService.creaNotifiche(ogniAdmin.getId(), messaggio);
                 } catch (Exception e) {
                     // Gestisci eventuali errori durante l'invio dell'email
                     logger.error("Errore nell'invio dell'email a {}: {}", ogniAdmin.getEmail(), e.getMessage());
@@ -115,6 +114,11 @@ public class MembriService {
     public Membri updateMembro(Long id, Membri membro) {
         return membriRepository.findById(id)
             .map(esistente -> {
+
+                // Codifica della password
+                membro.setPassword(passwordEncoder.encode(membro.getPassword()));
+                logger.info("Password per l'email {} è stata codificata.", membro.getEmail());
+
                 esistente.setNome(membro.getNome());
                 esistente.setCognome(membro.getCognome());
                 esistente.setEmail(membro.getEmail());
@@ -131,7 +135,18 @@ public class MembriService {
                 esistente.setPassword(membro.getPassword());
                 esistente.setDeleted(membro.isDeleted());
 
-                //invia notifica
+                // Crea notifica
+                String messaggio = String.format(
+                        "I dati del membro %s %s sono stati modificati",
+                        esistente.getNome(),
+                        esistente.getCognome()
+                );
+
+                // Crea notifica
+                List<Membri> allAdmin = membriRepository.findByCategoria(CategoriaMembro.ADMIN);
+                for (Membri ogniAdmin : allAdmin) {
+                    notificheService.creaNotifiche(ogniAdmin.getId(), messaggio);;
+                }
 
                 return membriRepository.save(esistente);
             })
@@ -143,6 +158,18 @@ public class MembriService {
         membriRepository.findById(id)
             .ifPresent(membro -> {
                 membro.setDeleted(true);
+
+                String messaggio = String.format(
+                        "Il membro %s %s è stato cancellato",
+                        membro.getNome(),
+                        membro.getCognome()
+                );
+
+                // Crea notifica
+                List<Membri> allAdmin = membriRepository.findByCategoria(CategoriaMembro.ADMIN);
+                for (Membri ogniAdmin : allAdmin) {
+                    notificheService.creaNotifiche(ogniAdmin.getId(), messaggio);;
+                }
                 membriRepository.save(membro);
             });
     }
@@ -175,5 +202,13 @@ public class MembriService {
 
     public List<Membri> getMembriAdmin() {
         return membriRepository.findByCategoria(CategoriaMembro.ADMIN);
+    }
+
+    public boolean existsByEmail(String email) {
+        return membriRepository.existsByEmail(email);
+    }
+
+    public Membri getMembroByEmail(String email) {
+        return membriRepository.findByEmail(email);
     }
 }

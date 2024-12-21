@@ -5,11 +5,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.List;
 
 @Repository
 public interface SessioneRepository extends JpaRepository<Sessione, Long> {
+    Sessione findByMembroId(Long id);
     Sessione findByToken(String token);
     void deleteByDataScadenzaBefore(LocalDateTime date);
-    Optional<Sessione> findByMembroIdAndDataScadenzaAfter(Long membroId, LocalDateTime now);
+    List<Sessione> findByMembroIdAndDataScadenzaAfter(Long membroId, LocalDateTime now);
 }

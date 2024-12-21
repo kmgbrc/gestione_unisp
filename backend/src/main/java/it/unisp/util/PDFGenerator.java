@@ -124,6 +124,8 @@ public class PDFGenerator {
         Image qrCodeImage = new Image(imageData);
         document.add(qrCodeImage);
 
+        document.add(new Paragraph(prenotazione.getQrCode()));
+
         // Chiudi il documento
         document.close();
 

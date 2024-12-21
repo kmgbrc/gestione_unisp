@@ -2,6 +2,7 @@ package it.unisp.service;
 
 import it.unisp.model.Partecipazioni;
 import it.unisp.repository.PartecipazioniRepository;
+import it.unisp.util.EmailSender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,7 @@ public class PartecipazioniService {
     private final NotificheService notificaService;
     private final MembriService membriService;
     private final AttivitaService attivitaService;
+    private final EmailSender emailSender;
 
     public List<Partecipazioni> getAllPartecipazioni() {
         return partecipazioniRepository.findByIsDeletedFalse();
@@ -43,24 +45,68 @@ public class PartecipazioniService {
         // Salva la partecipazione
         Partecipazioni saved = partecipazioniRepository.save(partecipazione);
 
-        /*// Invia notifiche per assenze
+        // Invia mail e notifica per assenze
         if (!partecipazione.isPresente()) {
-            long nuoveAssenze = contaAssenze(partecipazione.getMembro().getId());
-            if (nuoveAssenze == 3 || nuoveAssenze == 4 || nuoveAssenze == 5) {
-                notificaService.inviaNotificheAssenze(partecipazione.getMembro(), nuoveAssenze);
+            long totaleAssenze = contaAssenze(partecipazione.getMembro().getId());
+            if (totaleAssenze == 3 || totaleAssenze == 4 || totaleAssenze == 5) {
+
+                // Invia l'email al membro
+                String oggetto = "UNISP ASSENZE";
+                String messaggio = "hai già raggiunto " + totaleAssenze + " assenze !";
+
+                emailSender.inviaEmailGenerico(
+                        partecipazione.getMembro().getEmail(),
+                        partecipazione.getMembro().getNome(),
+                        oggetto,
+                        messaggio,
+                        null,
+                        null
+                );
+
+                // Crea notifica
+                notificaService.creaNotifiche(partecipazione.getMembro().getId(), messaggio);
             }
-        }*/
+        }
+
+        // Invia mail e notifica per deleghe
+        if (partecipazione.getDelegato() != null) {
+            long totaleDeleghe = contaDeleghe(partecipazione.getMembro().getId());
+            if (totaleDeleghe == 2 || totaleDeleghe == 3) {
+
+                // Invia l'email al membro
+                String oggetto = "UNISP DELEGHE";
+                String messaggio = "hai già fatto " + totaleDeleghe + " deleghe !";
+
+                emailSender.inviaEmailGenerico(
+                        partecipazione.getMembro().getEmail(),
+                        partecipazione.getMembro().getNome(),
+                        oggetto,
+                        messaggio,
+                        null,
+                        null
+                );
+
+                // Crea notifica
+                notificaService.creaNotifiche(partecipazione.getMembro().getId(), messaggio);
+            }
+        }
 
         return saved;
     }
 
-
-
-    public long countPartecipazioniNonPresenti(Long membroId) {
-        return partecipazioniRepository.countByMembroIdAndPresenteFalseAndIsDeletedFalse(membroId);
-    }
-
     public Partecipazioni getPartecipazioniById(Long id) {
         return partecipazioniRepository.findByIdAndIsDeletedFalse(id);
+    }
+
+    public long contaAssenze(Long membroId) {
+        return getPartecipazioniByMembro(membroId).stream()
+                .filter(p -> !p.isPresente())
+                .count();
+    }
+
+    public long contaDeleghe(Long membroId) {
+        return getPartecipazioniByMembro(membroId).stream()
+                .filter(p -> p.getDelegato() != null)
+                .count();
     }
 }

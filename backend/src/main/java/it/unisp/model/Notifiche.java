@@ -20,9 +20,8 @@ public class Notifiche {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "membro_id", nullable = false)
-    private Membri membro;
+    private Long membroId;
 
     @NotBlank(message="Contenuto è obbligatorio")
     @Column(nullable=false)
@@ -37,8 +36,8 @@ public class Notifiche {
     @Column(name="is_deleted", nullable=false)
     private boolean isDeleted=false;
 
-    public Notifiche(Membri membro, String contenuto, boolean letto) {
-        this.membro = membro;
+    public Notifiche(Long membroId, String contenuto, boolean letto) {
+        this.membroId = membroId;
         this.contenuto = contenuto;
         this.letto = letto;
     }
