@@ -84,9 +84,18 @@ public class NotificaController {
             @ApiResponse(responseCode = "201", description = "Notifica creata con successo"),
             @ApiResponse(responseCode = "400", description = "Richiesta non valida")
     })
-    public ResponseEntity<Void> creaNotifica(@RequestParam Long  membroId, @RequestParam String messaggio) {
-        notificaService.creaNotifiche(membroId, messaggio);
+    public ResponseEntity<Void> creaNotifica(@RequestParam Long  membroId, @RequestParam String messaggio, @RequestParam String titolo) {
+        notificaService.creaNotifiche(membroId, messaggio, titolo);
         return ResponseEntity.status(201).build();
     }
-
+    @GetMapping("/membro/{membroId}/conteggio-non-lette")
+    @Operation(summary = "Conta le notifiche non lette di un membro", description = "Restituisce il conteggio delle notifiche non lette per un membro specificato.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Conteggio delle notifiche non lette restituito con successo"),
+            @ApiResponse(responseCode = "404", description = "Membro non trovato")
+    })
+    public ResponseEntity<Long> contaNotificheNonLette(@PathVariable Long membroId) {
+        long conteggio = notificaService.contaNotificheNonLette(membroId);
+        return ResponseEntity.ok(conteggio);
+    }
 }

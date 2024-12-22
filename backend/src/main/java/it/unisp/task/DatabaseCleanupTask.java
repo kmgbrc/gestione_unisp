@@ -15,7 +15,7 @@ public class DatabaseCleanupTask {
     private final NotificheRepository notificaRepository;
     private final PrenotazioniRepository prenotazioneRepository;
 
-    @Scheduled(cron = "0 0 2 * * *") // Esegui ogni giorno alle 2:00
+    @Scheduled(cron = "0 0 2 * * SUN") // Esegui tutte le domeniche alle 2:00
     @Transactional
     public void pulisciDatabase() {
         // Pulisci sessioni scadute
@@ -24,6 +24,5 @@ public class DatabaseCleanupTask {
         // Soft delete notifiche vecchie di 6 mesi
         LocalDateTime seiMesiFa = LocalDateTime.now().minusMonths(6);
         notificaRepository.softDeleteOldNotifichetions(seiMesiFa);
-
     }
 }

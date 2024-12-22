@@ -28,9 +28,6 @@ public class Partecipazioni {
 
     private boolean presente;
 
-    @Column(length=20)
-    private String stato;
-
     @ManyToOne(optional=true)
     @JoinColumn(name="delegato_id")
     private Membri delegato;
@@ -38,8 +35,6 @@ public class Partecipazioni {
     @Column(name="data_partecipazione")
     private LocalDateTime dataPartecipazione=LocalDateTime.now();
 
-    @Column(name="data_creazione")
-    private LocalDateTime dataCreazione=LocalDateTime.now();
 
     @Column(name="is_deleted", nullable=false)
     private boolean isDeleted=false; // Valore predefinito

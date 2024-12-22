@@ -27,6 +27,10 @@ public class Notifiche {
     @Column(nullable=false)
     private String contenuto;
 
+    @NotBlank(message="Titolo è obbligatorio")
+    @Column(nullable=false)
+    private String titolo;
+
     @Column(name="data_invio", nullable=false)
     private LocalDateTime dataInvio=LocalDateTime.now();
 
@@ -36,9 +40,10 @@ public class Notifiche {
     @Column(name="is_deleted", nullable=false)
     private boolean isDeleted=false;
 
-    public Notifiche(Long membroId, String contenuto, boolean letto) {
+    public Notifiche(Long membroId, String contenuto, String titolo, boolean letto) {
         this.membroId = membroId;
         this.contenuto = contenuto;
+        this.titolo = titolo;
         this.letto = letto;
     }
 }

@@ -90,26 +90,4 @@ public class EmailSender {
             throw new RuntimeException("Errore nell'invio dell'email", e);
         }
     }
-
-    public void inviaNotifiche(String destinatario, String oggetto, String contenuto) {
-        try {
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true);
-
-            helper.setTo(destinatario);
-            helper.setSubject(oggetto);
-
-            Context context = new Context();
-            context.setVariable("contenuto", contenuto);
-            String htmlContent = templateEngine.process("notifiche/notifiche-template", context);
-            helper.setText(htmlContent, true);
-
-            mailSender.send(message);
-            logger.info("Notifica inviata a: {}", destinatario);
-        } catch (MessagingException e) {
-            logger.error("Errore nell'invio della notifica a {}: {}", destinatario, e.getMessage());
-            throw new RuntimeException("Errore nell'invio dell'email", e);
-        }
-    }
-
 }

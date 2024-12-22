@@ -92,23 +92,10 @@ public class PagamentoService {
         );
 
         // Crea notifica
-        notificheService.creaNotifiche(membro.getId(), messaggio);
+        notificheService.creaNotifiche(membro.getId(), messaggio, oggetto);
 
         return saved;
     }
-
-
-/*    @Transactional
-    public Pagamenti processaDonazione(Membri membro, BigDecimal importo, String transazioneId) {
-        Pagamenti pagamento = new Pagamenti();
-        pagamento.setMembro(membro);
-        pagamento.setTipoPagamento(TipoPagamento.DONAZIONE);
-        pagamento.setImporto(importo);
-        pagamento.setDataPagamento(LocalDateTime.now());
-        pagamento.setTransazioneId(transazioneId);
-        
-        return pagamentiRepository.save(pagamento);
-    }*/
 
     public List<Pagamenti> getPagamentiMembro(Long membroId) {
         return pagamentiRepository.findByMembroIdAndIsDeletedFalseOrderByDataPagamentoDesc(membroId);

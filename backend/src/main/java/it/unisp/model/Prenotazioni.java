@@ -36,11 +36,12 @@ public class Prenotazioni {
     @Enumerated(EnumType.STRING)
     private StatoPrenotazione stato;
 
-    public String qrCode;
+    private String qrCode;
 
     @Column(name="ora_prenotazione")
     private LocalDateTime oraPrenotazione=LocalDateTime.now();
 
     @Column(name="is_deleted", nullable=false)
     private boolean isDeleted=false;
+
 }

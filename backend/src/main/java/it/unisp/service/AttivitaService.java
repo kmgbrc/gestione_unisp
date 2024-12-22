@@ -57,7 +57,7 @@ public class AttivitaService {
         );
         for (Membri membro : tuttiIMembri) {
             // Crea notifica
-            notificheService.creaNotifiche(membro.getId(), messaggio);
+            notificheService.creaNotifiche(membro.getId(), messaggio, attivita.getTitolo());
 
             // Invia email
             try {
@@ -103,7 +103,7 @@ public class AttivitaService {
 
                     for (Membri membro : tuttiIMembri) {
                         // Crea notifica
-                        notificheService.creaNotifiche(membro.getId(), messaggio);
+                        notificheService.creaNotifiche(membro.getId(), messaggio, attivita.getTitolo());
 
                         // Invia email
                         try {

@@ -173,5 +173,4 @@ public class PrenotazioneService {
                         membroId, attivitaId)
                 .orElseThrow(() -> new RuntimeException("Nessuna prenotazione trovata per il membro con ID: " + membroId + " per l'attività con ID: " + attivitaId));
     }
-
 }

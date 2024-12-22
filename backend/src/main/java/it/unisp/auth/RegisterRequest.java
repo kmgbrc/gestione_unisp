@@ -52,5 +52,5 @@ public class RegisterRequest {
 
     private LocalDate dataCreazione;
 
-    private LocalDate dataUltimoRinnovo;
+    private LocalDate annoScadenzaIscrizione;
 }

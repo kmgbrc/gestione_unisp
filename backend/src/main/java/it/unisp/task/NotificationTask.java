@@ -1,11 +1,14 @@
 package it.unisp.task;
 
+import ch.qos.logback.classic.Logger;
+import it.unisp.enums.StatoMembro;
+import it.unisp.enums.StatoPrenotazione;
 import it.unisp.model.Attivita;
 import it.unisp.model.Membri;
-import it.unisp.service.AttivitaService;
-import it.unisp.service.MembriService;
-import it.unisp.service.NotificheService;
-import it.unisp.service.PartecipazioniService;
+import it.unisp.model.Prenotazioni;
+import it.unisp.repository.MembriRepository;
+import it.unisp.service.*;
+import it.unisp.util.DateUtils;
 import it.unisp.util.EmailSender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
@@ -24,50 +27,54 @@ public class NotificationTask {
     private final NotificheService notificheService;
     private final AttivitaService attivitaService;
     private final PartecipazioniService partecipazioniService;
+    private  final PrenotazioneService prenotazioneService;
     private final EmailSender emailSender;
     private final MembriService membriService;
+    private final MembriRepository membriRepository;
 
-    @Scheduled(cron = "0 0 9 * * *") // Ogni giorno alle 9:00
-    public void inviaNotificheScadenze() {
+    @Scheduled(cron = "0 0 9 7,20,L * ?") // Tre volte al mese alle 9:00
+    public void inviaNotificheRinnovoIscrizione() {
         // Notifiche per rinnovo iscrizione
-        membriService.getMembriConIscrizioneInScadenza().forEach(membro -> {
-            String messaggio = "La tua iscrizione scadrà tra 30 giorni. Ricordati di rinnovarla.";
-            notificheService.creaNotifiche(membro.getId(), messaggio);
-            emailSender.inviaNotifiche(membro.getEmail(), "Rinnovo Iscrizione", messaggio);
-        });
-
-        // Notifiche per documenti mancanti
-        membriService.getMembriConDocumentiMancanti().forEach(membro -> {
-            String messaggio = "Hai documenti mancanti o scaduti. Accedi al portale per verificare.";
-            notificheService.creaNotifiche(membro.getId(), messaggio);
-            emailSender.inviaNotifiche(membro.getEmail(), "Documenti Mancanti", messaggio);
+        membriService.getMembriScaduti(LocalDate.now().getYear()).forEach(membro -> {
+            String messaggio = "La tua iscrizione sta per scadere. Ricordati di rinnovarla.";
+            notificheService.creaNotifiche(membro.getId(), messaggio, "Rinnovo iscrizione");
+            emailSender.inviaEmailGenerico(membro.getEmail(), membro.getNome(), "Rinnovo Iscrizione", messaggio, null, null);
         });
     }
 
-    @Scheduled(cron = "0 0 9 * * *") // Ogni giorno alle 9:00
+    @Scheduled(cron = "0 0 8 1 * ?") // Una volta al mese alle 8:00
+    public void inviaNotificheDocMancanti() {
+        // Notifiche per documenti mancanti
+        membriService.getMembriConDocumentiMancanti().forEach(membro -> {
+            String messaggio = "Hai documenti mancanti o scaduti. Accedi al portale per verificare.";
+            notificheService.creaNotifiche(membro.getId(), messaggio, "Documenti mancanti");
+            emailSender.inviaEmailGenerico(membro.getEmail(), membro.getNome(), "Documenti mancanti", messaggio, null, null);
+        });
+    }
+
+    @Scheduled(cron = "0 0 7 * * *") // Ogni giorno alle 7:00
     public void inviaNotificheAttivitaMattina() {
         // Notifiche per attività del giorno
         LocalDate oggi = LocalDate.now();
         List<Attivita> attivitaOggi = attivitaService.getAttivitaByDateRange(oggi.atStartOfDay(), oggi.plusDays(1).atStartOfDay());
 
         // Recupera tutti i membri
-        List<Membri> tuttiIMembri = membriService.getAllMembri(); // Assicurati di avere questo metodo nel servizio
+        List<Membri> tuttiIMembri = membriService.getAllMembri();
 
         for (Attivita attivita : attivitaOggi) {
             String messaggio = String.format(
                     "Gentile membro,\n\n" +
                             "Ti informiamo che ci sarà oggi l'attività '%s' che si svolgerà presso '%s' alle %s.\n\n" +
-                            "Non mancare!\n\n" +
-                            "Cordiali saluti,\n" +
-                            "Il Team UNISP",
+                            "Non mancare!\n\n",
                     attivita.getTitolo(),
                     attivita.getLuogo(),
                     attivita.getDataOra().format(DateTimeFormatter.ofPattern("HH:mm"))
             );
 
-            // Invia la notifica a tutti i membri
+            // Invia la notifica e mail a tutti i membri
             for (Membri membro : tuttiIMembri) {
-                notificheService.creaNotifiche(membro.getId(), messaggio);
+                notificheService.creaNotifiche(membro.getId(), messaggio, "Promemoria attività");
+                emailSender.inviaEmailGenerico(membro.getEmail(), membro.getNome(), "Promemoria attività", messaggio, null, null);
             }
         }
     }
@@ -90,37 +97,58 @@ public class NotificationTask {
                             "Il Team UNISP",
                     attivita.getTitolo(),
                     attivita.getLuogo(),
-                    attivita.getDataOra().format(DateTimeFormatter.ofPattern("dd/MMMM/yyyy 'alle' HH:mm"))
+                    DateUtils.formatDateTime(attivita.getDataOra())
             );
 
-            // Invia la notifica a tutti i membri
+            // Invia la notifica e mail a tutti i membri
             for (Membri membro : tuttiIMembri) {
-                notificheService.creaNotifiche(membro.getId(), messaggio);
+                notificheService.creaNotifiche(membro.getId(), messaggio, "Promemoria attività");
+                emailSender.inviaEmailGenerico(membro.getEmail(), membro.getNome(), "Promemoria attività", messaggio, null, null);
             }
         }
     }
 
-    @Scheduled(cron = "0 0 22 * * *") // Ogni giorno alle 22:00
-    public void inviaNotificheAssenze() {
-        List<Membri> membri = membriService.getAllMembri(); // Recupera tutti i membri
+    @Scheduled(cron = "0 0 0 * * ?") // Esegue ogni giorno a mezzanotte
+    public void registraPartecipazioni() {
+        List<Attivita> allAttivita = attivitaService.getAttivitaByDateRange(
+                LocalDateTime.now().minusDays(2),
+                LocalDateTime.now()
+        );
 
-        for (Membri membro : membri) {
-            long numeroAssenze = partecipazioniService.contaAssenze(membro.getId());
-
-            if (numeroAssenze == 4) {
-                String messaggio = String.format("Attenzione: hai raggiunto %d assenze quest'anno.", numeroAssenze);
-
-                // Salva notifica nel database
-                notificheService.creaNotifiche(membro.getId(), messaggio);
-
-                // Invia email
-                SimpleMailMessage email = new SimpleMailMessage();
-                email.setTo(membro.getEmail());
-                email.setSubject("Notifiche Assenze UNISP");
-                email.setText(messaggio);
-                //mailSender.send(email);
+        for (Attivita attivita : allAttivita) {
+            List<Membri> membriCoinvolti = membriService.getMembriAttivi();
+            for (Membri membro : membriCoinvolti) {
+                Prenotazioni prenotazione = prenotazioneService.getPrenotazioneMembroAttivita(membro.getId(), attivita.getId());
+                if( prenotazione != null)
+                    partecipazioniService.registraPartecipazione(
+                            prenotazione.getMembro().getId(),
+                            prenotazione.getAttivita().getId(),
+                            prenotazione.getDelegato().getId() == null && prenotazione.getStato().equals(StatoPrenotazione.VALIDATA),
+                            prenotazione.getDelegato().getId(),
+                            prenotazione.getOraPrenotazione()
+                    );
+                else
+                    partecipazioniService.registraPartecipazione(
+                            prenotazione.getMembro().getId(),
+                            prenotazione.getAttivita().getId(),
+                            false,
+                            null,
+                            null
+                    );
             }
+
         }
     }
+    @Scheduled(cron = "0 59 23 31 12 *") // Esegue ogni anno il 31 dicembre alle 23:59
+    public void aggiornaStatoMembri() {
 
+        List<Membri> membriScaduti = membriService.getMembriScaduti(LocalDate.now().getYear());
+
+        for (Membri membro : membriScaduti) {
+            membro.setStato(StatoMembro.INATTIVO);
+            membriRepository.save(membro);
+            Logger logger = null;
+            logger.info("Stato del membro {} aggiornato a INATTIVO", membro.getId());
+        }
+    }
 }

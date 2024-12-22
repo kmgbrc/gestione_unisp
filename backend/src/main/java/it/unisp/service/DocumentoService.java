@@ -1,16 +1,21 @@
 package it.unisp.service;
 
+import ch.qos.logback.classic.Logger;
 import it.unisp.enums.CategoriaMembro;
 import it.unisp.enums.StatoDocumento;
 import it.unisp.exception.MissingDocumentException;
 import it.unisp.model.Documenti;
 import it.unisp.model.Membri;
+import it.unisp.model.Sessione;
 import it.unisp.repository.DocumentiRepository;
+import it.unisp.repository.SessioneRepository;
 import it.unisp.util.EmailSender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -26,7 +31,9 @@ public class DocumentoService {
     private final DocumentiRepository documentiRepository;
     private final MembriService membriService;
     private final EmailSender emailSender;
+    private  final SessioneRepository sessioneRepository;
     private  final NotificheService notificheService;
+    Logger logger = null;
     private static final String UPLOAD_DIR = "documenti/uploads/";
 
     @Transactional
@@ -62,7 +69,7 @@ public class DocumentoService {
         );
 
         // Crea notifica
-        notificheService.creaNotifiche(savedDocument.getMembro().getId(), messaggio);
+        notificheService.creaNotifiche(savedDocument.getMembro().getId(), messaggio, oggetto);
 
         // Invia l'email agli admin
         List<Membri> allAdmin = membriService.getMembriAdmin();
@@ -82,7 +89,7 @@ public class DocumentoService {
             );
 
             // Crea notifica
-            notificheService.creaNotifiche(ogniAdmin.getId(), messaggio);
+            notificheService.creaNotifiche(ogniAdmin.getId(), messaggio, oggetto);
         }
         return savedDocument;
     }
@@ -93,44 +100,57 @@ public class DocumentoService {
 
     @Transactional
     public Documenti approvaDocumento(Long documentoId) {
+        try {
+            return documentiRepository.findById(documentoId)
+                    .map(doc -> {
+                        doc.setStato(StatoDocumento.APPROVATO);
+                        doc.setNote("Approvato da: ");
 
-        return documentiRepository.findById(documentoId)
-                .map(doc -> {
-                    doc.setStato(StatoDocumento.APPROVATO);
+                        // Invia l'email al membro
+                        String oggetto = "Documento " + doc.getStato().toString();
+                        String messaggio = "Il documento di tipo " + doc.getTipo() + " è stato " +
+                                doc.getStato().toString();
 
-                    // Invia l'email al membro
-                    String oggetto = "Documento " + doc.getStato().toString();
-                    String messaggio = "Il documento di tipo " + doc.getTipo() + " è stato " +
-                            doc.getStato().toString();
+                        emailSender.inviaEmailGenerico(
+                                doc.getMembro().getEmail(),
+                                doc.getMembro().getNome(),
+                                oggetto,
+                                messaggio,
+                                null,
+                                null
+                        );
 
-                    emailSender.inviaEmailGenerico(
-                            doc.getMembro().getEmail(),
-                            doc.getMembro().getNome(),
-                            oggetto,
-                            messaggio,
-                            null,
-                            null
-                    );
+                        // Crea notifica
+                        notificheService.creaNotifiche(doc.getMembro().getId(), messaggio, oggetto);
 
-                    // Crea notifica
-                    notificheService.creaNotifiche(doc.getMembro().getId(), messaggio);
-
-                    return documentiRepository.save(doc);
-                })
-                .orElseThrow(() -> new MissingDocumentException("Documento non trovato"));
+                        return documentiRepository.save(doc);
+                    })
+                    .orElseThrow(() -> new MissingDocumentException("Documento non trovato"));
+        } catch (MissingDocumentException e) {
+            // Log dell'errore
+            logger.error("Errore durante l'approvazione del documento: {}", e.getMessage());
+            throw e; // Rilancia l'eccezione per gestirla a livello superiore
+        } catch (Exception e) {
+            // Gestione di altre eccezioni generali
+            logger.error("Errore imprevisto durante l'approvazione del documento: {}", e.getMessage());
+            throw new RuntimeException("Errore durante l'approvazione del documento", e);
+        }
     }
+
 
     @Transactional
     public Documenti rifiutaDocumento(Long documentoId, String motivazione) {
+
         return documentiRepository.findById(documentoId)
                 .map(doc -> {
                     doc.setStato(StatoDocumento.RIFIUTATO);
-                    doc.setNote(motivazione);
+                    doc.setNote("Rifiutato da: ");
+                    doc.setDeleted(true);
 
                     // Invia l'email al membro
                     String oggetto = "Documento " + doc.getStato().toString();
                     String messaggio = "Il documento di tipo " + doc.getTipo() + " è stato " + doc.getStato() +
-                                " per motivo: " + doc.getNote() + ". \nSei pregato di mandarci un documento valido.";
+                                " per motivo: " + motivazione + ". \nSei pregato di mandarci un documento valido.";
 
                     emailSender.inviaEmailGenerico(
                             doc.getMembro().getEmail(),
@@ -140,9 +160,8 @@ public class DocumentoService {
                             null,
                             null
                     );
-
                     // Crea notifica
-                    notificheService.creaNotifiche(doc.getMembro().getId(), messaggio);
+                    notificheService.creaNotifiche(doc.getMembro().getId(), messaggio, oggetto);
 
                     return documentiRepository.save(doc);
                 })

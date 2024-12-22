@@ -67,8 +67,8 @@ public class Membri implements UserDetails {
     @Column(name="data_creazione", nullable=false)
     private LocalDate dataCreazione=LocalDate.now();
 
-    @Column(name = "data_ultimo_rinnovo")
-    private LocalDate dataUltimoRinnovo;
+    @Column(name = "anno_scadenza_iscrizione")
+    private Integer annoScadenzaIscrizione;
 
     @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted = false;

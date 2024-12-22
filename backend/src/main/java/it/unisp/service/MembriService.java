@@ -57,7 +57,7 @@ public class MembriService {
         if(membro.getCategoria()== null) membro.setCategoria(CategoriaMembro.VOLONTARIO);
         if(membro.getStato() == null) membro.setStato(StatoMembro.INATTIVO);
         membro.setDataCreazione(LocalDate.now());
-        membro.setDataUltimoRinnovo(LocalDate.now());
+        membro.setAnnoScadenzaIscrizione(LocalDate.now().getYear());
         logger.info("Data di iscrizione e ultimo rinnovo impostate per il membro: {}", membro.getEmail());
 
         try {
@@ -87,7 +87,7 @@ public class MembriService {
                             null  // Nome dell'allegato, se non usato
                     );
                     // Crea notifica
-                    notificheService.creaNotifiche(ogniAdmin.getId(), messaggio);
+                    notificheService.creaNotifiche(ogniAdmin.getId(), messaggio, "AVVISO NUOVO MEMBRO!");
                 } catch (Exception e) {
                     // Gestisci eventuali errori durante l'invio dell'email
                     logger.error("Errore nell'invio dell'email a {}: {}", ogniAdmin.getEmail(), e.getMessage());
@@ -131,7 +131,7 @@ public class MembriService {
                 esistente.setCertificatoStudente(membro.isCertificatoStudente());
                 esistente.setDichiarazioneIsee(membro.isDichiarazioneIsee());
                 esistente.setDataCreazione(membro.getDataCreazione());
-                esistente.setDataUltimoRinnovo(membro.getDataUltimoRinnovo());
+                esistente.setAnnoScadenzaIscrizione(membro.getAnnoScadenzaIscrizione());
                 esistente.setPassword(membro.getPassword());
                 esistente.setDeleted(membro.isDeleted());
 
@@ -145,7 +145,7 @@ public class MembriService {
                 // Crea notifica
                 List<Membri> allAdmin = membriRepository.findByCategoria(CategoriaMembro.ADMIN);
                 for (Membri ogniAdmin : allAdmin) {
-                    notificheService.creaNotifiche(ogniAdmin.getId(), messaggio);;
+                    notificheService.creaNotifiche(ogniAdmin.getId(), messaggio, "Membro modificato");;
                 }
 
                 return membriRepository.save(esistente);
@@ -168,7 +168,7 @@ public class MembriService {
                 // Crea notifica
                 List<Membri> allAdmin = membriRepository.findByCategoria(CategoriaMembro.ADMIN);
                 for (Membri ogniAdmin : allAdmin) {
-                    notificheService.creaNotifiche(ogniAdmin.getId(), messaggio);;
+                    notificheService.creaNotifiche(ogniAdmin.getId(), messaggio, "Membro Cancellato");;
                 }
                 membriRepository.save(membro);
             });
@@ -176,13 +176,6 @@ public class MembriService {
 
     public Membri findByMembroIdAndIsDeletedFalse(Long membroId) {
         return membriRepository.findByIdAndIsDeletedFalse(membroId);
-    }
-
-    public List<Membri> getMembriConIscrizioneInScadenza() {
-        LocalDate oggi = LocalDate.now();
-        LocalDate dataScadenza = oggi.plusDays(30); // Consideriamo le iscrizioni in scadenza entro 30 giorni
-
-        return membriRepository.findByDataUltimoRinnovoBetween(oggi, dataScadenza);
     }
 
     public List<Membri> getMembriConDocumentiMancanti() {
@@ -204,11 +197,11 @@ public class MembriService {
         return membriRepository.findByCategoria(CategoriaMembro.ADMIN);
     }
 
-    public boolean existsByEmail(String email) {
-        return membriRepository.existsByEmail(email);
-    }
-
     public Membri getMembroByEmail(String email) {
         return membriRepository.findByEmail(email);
+    }
+
+    public List<Membri> getMembriScaduti(int anno) {
+        return membriRepository.findByAnnoScadenzaIscrizioneAndStatoNot(anno, StatoMembro.ESCLUSO);
     }
 }

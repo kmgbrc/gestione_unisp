@@ -50,10 +50,10 @@ public class PagamentoController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/iscrizione")
-    @Operation(summary = "Processa pagamento di iscrizione", description = "Elabora un pagamento di iscrizione per un membro specificato.")
+    @PostMapping
+    @Operation(summary = "Processa pagamento", description = "Elabora un pagamento per un membro specificato.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Pagamento di iscrizione elaborato con successo"),
+            @ApiResponse(responseCode = "200", description = "Pagamento elaborato con successo"),
             @ApiResponse(responseCode = "404", description = "Membro non trovato")
     })
     public ResponseEntity<Pagamenti> processaPagamentoIscrizione(
@@ -65,24 +65,6 @@ public class PagamentoController {
                 membriService.findByMembroIdAndIsDeletedFalse(membroId), importo, transazioneId, tipo
         ));
     }
-/*
-    @PostMapping("/donazione")
-    @Operation(summary = "Processa donazione", description = "Elabora un pagamento di donazione per un membro specificato.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Donazione elaborata con successo"),
-            @ApiResponse(responseCode = "404", description = "Membro non trovato"),
-            @ApiResponse(responseCode = "400", description = "Importo non valido")
-    })
-    public ResponseEntity<Pagamenti> processaDonazione(
-            @RequestParam Long membroId,
-            @RequestParam BigDecimal importo,
-            @RequestParam String transazioneId) {
-        return ResponseEntity.ok(pagamentoService.processaDonazione(
-                membriService.findByMembroIdAndIsDeletedFalse(membroId),
-                importo,
-                transazioneId
-        ));
-    }*/
 
     @GetMapping("/membro/{membroId}")
     @Operation(summary = "Recupera pagamenti di un membro", description = "Restituisce una lista di pagamenti effettuati da un membro specificato.")

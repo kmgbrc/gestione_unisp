@@ -64,7 +64,7 @@ public class PartecipazioniService {
                 );
 
                 // Crea notifica
-                notificaService.creaNotifiche(partecipazione.getMembro().getId(), messaggio);
+                notificaService.creaNotifiche(partecipazione.getMembro().getId(), messaggio, oggetto);
             }
         }
 
@@ -87,7 +87,7 @@ public class PartecipazioniService {
                 );
 
                 // Crea notifica
-                notificaService.creaNotifiche(partecipazione.getMembro().getId(), messaggio);
+                notificaService.creaNotifiche(partecipazione.getMembro().getId(), messaggio, oggetto);
             }
         }
 

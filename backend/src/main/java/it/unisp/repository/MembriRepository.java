@@ -14,9 +14,8 @@ public interface MembriRepository extends JpaRepository<Membri, Long> {
     Membri findByEmail(String email);
     boolean existsByEmail(String email);
     Membri findByIdAndIsDeletedFalse(Long membroId);
-    List<Membri> findByDataUltimoRinnovoBetween(LocalDate startDate, LocalDate endDate);
     List<Membri> findByStatoAndIsDeletedFalse(StatoMembro statoMembro);
     List<Membri> findByIsDeletedFalse();
-
+    List<Membri> findByAnnoScadenzaIscrizioneAndStatoNot(int annoScadenzaIscrizione, StatoMembro stato);
     List<Membri> findByCategoria(CategoriaMembro admin);
 }

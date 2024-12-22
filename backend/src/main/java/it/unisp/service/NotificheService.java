@@ -71,12 +71,21 @@ public class NotificheService {
         }
     }
 
-    public void creaNotifiche(Long membroId, String messaggio) {
+    public void creaNotifiche(Long membroId, String messaggio, String titolo) {
         try {
-            Notifiche notifica = new Notifiche(membroId, messaggio, false);
+            Notifiche notifica = new Notifiche(membroId, messaggio, titolo, false);
             notificaRepository.save(notifica);
         } catch (Exception e) {
             throw new RuntimeException("Errore nella creazione della notifica", e);
+        }
+    }
+
+    public long contaNotificheNonLette(Long membroId) {
+        try {
+            return notificaRepository.countByMembroIdAndLettoFalseAndIsDeletedFalse(membroId);
+        } catch (Exception e) {
+            logger.error("Errore nel conteggio delle notifiche non lette per il membro con ID: " + membroId, e);
+            throw new RuntimeException("Errore nel conteggio delle notifiche non lette", e);
         }
     }
 }

@@ -26,9 +26,6 @@ public class Sessione {
     @Column(nullable=false)
     private String token;
 
-    @Column(name="data_creazione")
-    private LocalDateTime dataCreazione=LocalDateTime.now();
-
     @Column(name="data_scadenza")
     private LocalDateTime dataScadenza;
 }
