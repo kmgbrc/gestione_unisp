@@ -22,9 +22,6 @@ public interface PrenotazioniRepository extends JpaRepository<Prenotazioni, Long
     @Query("UPDATE Prenotazioni p SET p.isDeleted = true WHERE p.oraPrenotazione <= :unaSettimanaFa")
     void softDeleteOldPrenotazioni(LocalDateTime unaSettimanaFa);
 
-    @Query("SELECT p.oraPrenotazione FROM Prenotazioni p WHERE p.membro.id = :id")
-    LocalDateTime getData(@Param("id") Long id);
-
     List<Prenotazioni> findByAttivitaId(Long attivitaId);
 
     List<Prenotazioni> findByStato(StatoPrenotazione attiva);

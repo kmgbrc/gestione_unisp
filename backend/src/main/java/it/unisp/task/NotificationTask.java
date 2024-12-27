@@ -47,8 +47,9 @@ public class NotificationTask {
         // Notifiche per documenti mancanti
         membriService.getMembriConDocumentiMancanti().forEach(membro -> {
             String messaggio = "Hai documenti mancanti o scaduti. Accedi al portale per verificare.";
-            notificheService.creaNotifiche(membro.getId(), messaggio, "Documenti mancanti");
-            emailSender.inviaEmailGenerico(membro.getEmail(), membro.getNome(), "Documenti mancanti", messaggio, null, null);
+            String oggetto = "Documenti mancanti";
+            notificheService.creaNotifiche(membro.getId(), messaggio, oggetto);
+            emailSender.inviaEmailGenerico(membro.getEmail(), membro.getNome(), oggetto, messaggio, null, null);
         });
     }
 
@@ -68,7 +69,7 @@ public class NotificationTask {
                             "Non mancare!\n\n",
                     attivita.getTitolo(),
                     attivita.getLuogo(),
-                    attivita.getDataOra().format(DateTimeFormatter.ofPattern("HH:mm"))
+                    DateUtils.formatTime(attivita.getDataOra())
             );
 
             // Invia la notifica e mail a tutti i membri

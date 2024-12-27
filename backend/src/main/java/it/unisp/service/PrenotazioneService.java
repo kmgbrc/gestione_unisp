@@ -105,7 +105,9 @@ public class PrenotazioneService {
 
         // Invia l'email con il QR Code allegato
         String oggetto = "Il tuo QR Code di Prenotazione";
-        String messaggio = "In allegato trovi il tuo QR Code per la prenotazione.";
+        String messaggio = "In allegato il file contenente sia il QR code della tua prenotazione che il numero di passaggio.\n" +
+                "Ti ricordo che il QR code deve essere validato all'ingresso entro un quarto d'ora dall'inizio dell'attività; in caso contrario, il tuo numero verrà disabilitato.\n" +
+                "Se hai domande o hai bisogno di ulteriore assistenza, devi mandare una mail a unisp.spesa@gmail.com !";
         PDFGenerator pdfGenerator = new PDFGenerator();
         byte[] qrCodeFile = pdfGenerator.generaQrCodeFile(prenotazione, qrCodeBytes);
 
@@ -120,7 +122,9 @@ public class PrenotazioneService {
 
         if (delegato != null){
             oggetto = "Delegato";
-            messaggio = "In allegato trovi il QR Code per la prenotazione di " + membro.getNome();
+            messaggio = "In allegato il file contenente sia il QR code della prenotazione di " +membro.getNome() + " che il suo numero di passaggio.\n" +
+                    "Ti ricordo che il QR code deve essere validato all'ingresso entro un quarto d'ora dall'inizio dell'attività; in caso contrario, il numero verrà disabilitato.\n" +
+                    "Se hai domande o hai bisogno di ulteriore assistenza, devi mandare una mail a unisp.spesa@gmail.com !";
 
             emailSender.inviaEmailGenerico(
                     delegato.getEmail(),

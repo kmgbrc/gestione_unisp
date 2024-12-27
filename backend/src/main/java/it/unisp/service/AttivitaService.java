@@ -4,6 +4,7 @@ import it.unisp.enums.StatoMembro;
 import it.unisp.model.Attivita;
 import it.unisp.model.Membri;
 import it.unisp.repository.AttivitaRepository;
+import it.unisp.util.DateUtils;
 import it.unisp.util.EmailSender;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger; // Importa la classe Logger
@@ -42,22 +43,37 @@ public class AttivitaService {
     public Attivita createAttivita(Attivita attivita) {
         List<Membri> tuttiIMembri = membriService.getMembriAttivi();
 
-        // Salva la nuova attività
-        Attivita newAttivita = attivitaRepository.save(attivita);
+        // Logga i dettagli dell'attività che si sta per salvare
+        logger.info("Salvataggio dell'attività: {}", attivita);
 
-        // Invia notifiche e email a tutti i membri
+        Attivita newAttivita;
+        try {
+            // Salva la nuova attività
+            newAttivita = attivitaRepository.save(attivita);
+        } catch (Exception e) {
+            // Gestione degli errori durante il salvataggio dell'attività
+            logger.error("Errore durante il salvataggio dell'attività: {}", e.getMessage());
+            throw new RuntimeException("Impossibile salvare l'attività. Riprova più tardi."); // Rilancia l'eccezione con un messaggio chiaro
+        }
+
+        // Costruisci il messaggio di notifica
         String messaggio = String.format(
-                "Ti informiamo che ci sarà l'attività '%s' che si svolgerà presso '%s' il %s.\n\n" +
-                        "Non mancare!\n\n" +
-                        "Cordiali saluti,\n" +
-                        "Il Team UNISP",
+                "UNISP - Ferrara comunica che ci sarà l'attività '%s' il %s alle %s puntuale presso %s.",
                 newAttivita.getTitolo(),
-                newAttivita.getLuogo(),
-                newAttivita.getDataOra().format(DateTimeFormatter.ofPattern("dd/MMMM/yyyy 'alle' HH:mm"))
+                DateUtils.formatDate(newAttivita.getDataOra()),
+                DateUtils.formatTime(newAttivita.getDataOra()),
+                newAttivita.getLuogo()
         );
+
         for (Membri membro : tuttiIMembri) {
             // Crea notifica
-            notificheService.creaNotifiche(membro.getId(), messaggio, attivita.getTitolo());
+            try {
+                notificheService.creaNotifiche(membro.getId(), messaggio, attivita.getTitolo());
+            } catch (Exception e) {
+                // Gestione degli errori durante la creazione della notifica
+                logger.error("Errore durante la creazione della notifica per {}: {}", membro.getId(), e.getMessage());
+                continue; // Prosegui con il prossimo membro
+            }
 
             // Invia email
             try {
@@ -81,6 +97,7 @@ public class AttivitaService {
         return newAttivita;
     }
 
+
     @Transactional
     public Attivita updateAttivita(Long id, Attivita attivita) {
         return attivitaRepository.findById(id)
@@ -93,12 +110,12 @@ public class AttivitaService {
 
                     List<Membri> tuttiIMembri = membriService.getMembriAttivi();
                     String messaggio = String.format(
-                            "Ti informiamo che è stato modificato l'attività '%s' che si svolgerà presso '%s' il %s.\n\n" +
-                                    "Cordiali saluti,\n" +
-                                    "Il Team UNISP",
+                            "Ti informiamo che è stato modificato l'attività %s che si svolgerà presso %s il %s alle %s." +
+                                    esistente.getDescrizione(),
                             esistente.getTitolo(),
                             esistente.getLuogo(),
-                            esistente.getDataOra().format(DateTimeFormatter.ofPattern("dd/MMMM/yyyy 'alle' HH:mm"))
+                            DateUtils.formatDate(esistente.getDataOra()),
+                            DateUtils.formatTime(esistente.getDataOra())
                     );
 
                     for (Membri membro : tuttiIMembri) {

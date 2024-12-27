@@ -10,6 +10,8 @@ import it.unisp.model.Sessione;
 import it.unisp.repository.DocumentiRepository;
 import it.unisp.repository.SessioneRepository;
 import it.unisp.util.EmailSender;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -99,12 +102,21 @@ public class DocumentoService {
     }
 
     @Transactional
-    public Documenti approvaDocumento(Long documentoId) {
+    public Documenti approvaDocumento(Long documentoId, HttpServletRequest request) {
         try {
+            // Recupera il token dai cookie
+            String token = Arrays.stream(request.getCookies())
+                    .filter(cookie -> "tokenUnisp".equals(cookie.getName()))
+                    .findFirst()
+                    .map(Cookie::getValue)
+                    .orElseThrow(() -> new RuntimeException("Token non trovato"));
+
+            Sessione sessione = sessioneRepository.findByToken(token);
+
             return documentiRepository.findById(documentoId)
                     .map(doc -> {
                         doc.setStato(StatoDocumento.APPROVATO);
-                        doc.setNote("Approvato da: ");
+                        doc.setNote("Approvato da: " + sessione.getMembro().getNome() + " " + sessione.getMembro().getCognome());
 
                         // Invia l'email al membro
                         String oggetto = "Documento " + doc.getStato().toString();
@@ -139,12 +151,21 @@ public class DocumentoService {
 
 
     @Transactional
-    public Documenti rifiutaDocumento(Long documentoId, String motivazione) {
+    public Documenti rifiutaDocumento(Long documentoId, String motivazione, HttpServletRequest request) {
+
+        // Recupera il token dai cookie
+        String token = Arrays.stream(request.getCookies())
+                .filter(cookie -> "tokenUnisp".equals(cookie.getName()))
+                .findFirst()
+                .map(Cookie::getValue)
+                .orElseThrow(() -> new RuntimeException("Token non trovato"));
+
+        Sessione sessione = sessioneRepository.findByToken(token);
 
         return documentiRepository.findById(documentoId)
                 .map(doc -> {
                     doc.setStato(StatoDocumento.RIFIUTATO);
-                    doc.setNote("Rifiutato da: ");
+                    doc.setNote("Rifiutato da: " + sessione.getMembro().getNome() + " " + sessione.getMembro().getCognome());
                     doc.setDeleted(true);
 
                     // Invia l'email al membro

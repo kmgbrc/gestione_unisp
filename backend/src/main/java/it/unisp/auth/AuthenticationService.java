@@ -8,6 +8,7 @@ import it.unisp.service.MembriService;
 import it.unisp.util.DateUtils;
 import it.unisp.util.EmailSender;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -52,7 +53,7 @@ public class AuthenticationService {
     }
 
     @Transactional
-    public AuthenticationResponse register(RegisterRequest request, HttpServletResponse response) {
+    public AuthenticationResponse register(RegisterRequest request, HttpServletResponse response, HttpServletRequest req) {
         try {
             var membro = Membri.builder()
                     .nome(request.getNome())
@@ -60,9 +61,10 @@ public class AuthenticationService {
                     .email(request.getEmail())
                     .password(request.getPassword())
                     .codiceFiscale(request.getCodiceFiscale())
+                    .telefono(request.getTelefono())
                     .build();
 
-            membriService.registraMembro(membro);
+            membriService.registraMembro(membro, req);
 
             UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
             String token = jwtService.generateToken(userDetails);
@@ -160,11 +162,11 @@ public class AuthenticationService {
         }
     }
 
-    public boolean cambiaPassword(String token, ChangePasswordRequest request) {
+    public boolean cambiaPassword(String token, ChangePasswordRequest request, HttpServletRequest req) {
         Membri membro = sessioneRepository.findByToken(token).getMembro();
 
         if (membro != null && passwordEncoder.matches(request.getCurrentPassword(), membro.getPassword())) {
-            membriService.registraMembro(membro);
+            membriService.registraMembro(membro, req);
 
             // Invia l'email con il link per il reset della password
             String oggetto = "PASSWORD CAMBIATA";
@@ -239,7 +241,7 @@ public class AuthenticationService {
 
         return true; // Email inviata con successo
     }
-    public boolean resetPassword(String token, String newPassword) {
+    public boolean resetPassword(String token, String newPassword, HttpServletRequest req) {
 
         if(DateUtils.isScaduto(sessioneRepository.findByToken(token).getDataScadenza()))
             return false;
@@ -248,7 +250,7 @@ public class AuthenticationService {
 
         // Aggiorna la password dell'utente
         membro.setPassword(newPassword);
-        membriService.registraMembro(membro);
+        membriService.registraMembro(membro, req);
 
         // Invia l'email con il link per il reset della password
         String oggetto = "Reset Password";

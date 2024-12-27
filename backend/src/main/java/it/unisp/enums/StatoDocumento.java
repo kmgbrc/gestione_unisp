@@ -4,5 +4,5 @@ public enum StatoDocumento {
     PENDENTE,
     APPROVATO,
     RIFIUTATO,
-    ARCHIVIATO;
+    ARCHIVIATO
 }

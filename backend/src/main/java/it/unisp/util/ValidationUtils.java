@@ -13,7 +13,7 @@ public class ValidationUtils {
     }
 
     public void validateEmail(String email) {
-        if (email == null || !email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+        if (email == null || !email.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[a-zA-Z]{2,}$")) {
             throw new BusinessException("Email non valida");
         }
     }

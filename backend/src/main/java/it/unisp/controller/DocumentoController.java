@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import it.unisp.exception.MissingDocumentException;
 import it.unisp.model.Documenti;
 import it.unisp.service.DocumentoService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,8 +42,8 @@ public class DocumentoController {
             @ApiResponse(responseCode = "200", description = "Documento approvato con successo"),
             @ApiResponse(responseCode = "404", description = "Documento non trovato")
     })
-    public ResponseEntity<Documenti> approvaDocumento(@PathVariable Long id) {
-        return ResponseEntity.ok(documentoService.approvaDocumento(id));
+    public ResponseEntity<Documenti> approvaDocumento(@PathVariable Long id, HttpServletRequest request) {
+        return ResponseEntity.ok(documentoService.approvaDocumento(id, request));
     }
 
     @PutMapping("/{id}/rifiuta")
@@ -54,8 +55,9 @@ public class DocumentoController {
     })
     public ResponseEntity<Documenti> rifiutaDocumento(
             @PathVariable Long id,
-            @RequestParam String motivazione) {
-        return ResponseEntity.ok(documentoService.rifiutaDocumento(id, motivazione));
+            @RequestParam String motivazione,
+            HttpServletRequest request){
+        return ResponseEntity.ok(documentoService.rifiutaDocumento(id, motivazione, request));
     }
 
     @GetMapping("/membro/{membroId}")

@@ -2,6 +2,7 @@ package it.unisp.controller;
 
 import it.unisp.model.Membri;
 import it.unisp.service.MembriService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -46,8 +47,8 @@ public class MembriController {
             @ApiResponse(responseCode = "200", description = "Membro creato con successo"),
             @ApiResponse(responseCode = "400", description = "Richiesta non valida")
     })
-    public ResponseEntity<Membri> createMembro(@RequestBody Membri membro) {
-        return ResponseEntity.ok(membriService.registraMembro(membro));
+    public ResponseEntity<Membri> createMembro(@RequestBody Membri membro, HttpServletRequest request) {
+        return ResponseEntity.ok(membriService.registraMembro(membro, request));
     }
 
     @PutMapping("/{id}")
@@ -60,8 +61,9 @@ public class MembriController {
     public ResponseEntity<Membri> updateMembro(
             @Parameter(description = "ID del membro da aggiornare", required = true)
             @PathVariable Long id,
-            @Valid @RequestBody Membri membro) {
-        return ResponseEntity.ok(membriService.updateMembro(id, membro));
+            @Valid @RequestBody Membri membro,
+            HttpServletRequest request) {
+        return ResponseEntity.ok(membriService.updateMembro(id, membro, request));
     }
 
     @DeleteMapping("/{id}")
@@ -72,8 +74,9 @@ public class MembriController {
     })
     public ResponseEntity<Void> deleteMembro(
             @Parameter(description = "ID del membro da eliminare", required = true)
-            @PathVariable Long id) {
-        membriService.deleteMembro(id);
+            @PathVariable Long id,
+            HttpServletRequest request) {
+        membriService.deleteMembro(id, request);
         return ResponseEntity.noContent().build();
     }
 }

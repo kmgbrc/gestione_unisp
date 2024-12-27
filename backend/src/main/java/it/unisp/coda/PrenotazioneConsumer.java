@@ -6,6 +6,8 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+
 @Service
 public class PrenotazioneConsumer {
 
@@ -22,10 +24,14 @@ public class PrenotazioneConsumer {
             prenotazioneService.prenotaNumero(request.getMembroId(), request.getAttivitaId(), request.getDelegatoId());
         } catch (EntityNotFoundException e) {
             System.err.println("Errore: " + e.getMessage());
-            // Potresti anche voler inviare un messaggio di errore a un'altra coda o loggarlo
+            // Invia un messaggio di errore a un'altra coda o logga l'errore
+        } catch (IOException e) {
+            System.err.println("Errore I/O nella prenotazione: " + e.getMessage());
+            // Gestisci specificamente l'errore I/O
         } catch (Exception e) {
             System.err.println("Errore generale nella prenotazione: " + e.getMessage());
         }
     }
+
 
 }

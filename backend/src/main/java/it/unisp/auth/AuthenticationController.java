@@ -3,6 +3,7 @@ package it.unisp.auth;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -42,8 +43,8 @@ public class AuthenticationController {
             @ApiResponse(responseCode = "400", description = "Richiesta non valida, controlla i parametri"),
             @ApiResponse(responseCode = "409", description = "Conflitto, l'utente potrebbe già esistere")
     })
-    public ResponseEntity<AuthenticationResponse> register(@Valid @RequestBody RegisterRequest request, HttpServletResponse response) {
-        return ResponseEntity.ok(authService.register(request, response));
+    public ResponseEntity<AuthenticationResponse> register(@Valid @RequestBody RegisterRequest request, HttpServletResponse response, HttpServletRequest req) {
+        return ResponseEntity.ok(authService.register(request, response, req));
     }
 
     @PostMapping("/login")
@@ -80,10 +81,10 @@ public class AuthenticationController {
             @ApiResponse(responseCode = "403", description = "Accesso negato, utente non autorizzato")
     })
     public ResponseEntity<String> cambiaPassword(@RequestHeader("Authorization") String authorizationHeader,
-                                                 @Valid @RequestBody ChangePasswordRequest request) {
+                                                 @Valid @RequestBody ChangePasswordRequest request, HttpServletRequest req) {
         String token = authorizationHeader.substring(7); // Rimuovi "Bearer "
 
-        boolean success = authService.cambiaPassword(token, request);
+        boolean success = authService.cambiaPassword(token, request, req);
 
         if (success) {
             return ResponseEntity.ok("Password cambiata con successo.");
@@ -117,8 +118,9 @@ public class AuthenticationController {
             @ApiResponse(responseCode = "404", description = "Token non valido o scaduto")
     })
     public ResponseEntity<String> resetPassword(@RequestParam("token") String token,
-                                                @Valid @RequestBody ResetPasswordRequest request) {
-        boolean success = authService.resetPassword(token, request.getNewPassword());
+                                                @Valid @RequestBody ResetPasswordRequest request,
+                                                HttpServletRequest req) {
+        boolean success = authService.resetPassword(token, request.getNewPassword(), req);
 
         if (success) {
             return ResponseEntity.ok("Password cambiata con successo.");

@@ -66,6 +66,7 @@ public class PagamentoService {
 
         // Genera ricevuta PDF
         byte[] ricevutaPdf = pdfGenerator.generaRicevutaPagamento(saved);
+        //byte[] cartaFidelita = pdfGenerator.generaCartaFidelita(membro);
 
         // Invia email con ricevuta
         String oggetto;
